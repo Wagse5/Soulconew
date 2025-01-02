@@ -3,7 +3,8 @@
 // Therapist data
 const therapists = [
     {
-        name: "Dr. Anjali Mehta",
+        name: "Aryan Bharghav",
+        photo: "https://ibb.co/59vKF3G",
         specialization: "Anxiety & Cultural Identity",
         description: "Experienced therapist specializing in anxiety and cultural identity issues faced by NRIs.",
         expertise: ["Cultural Adaptation", "Anxiety Management", "Identity Issues"]
@@ -21,7 +22,7 @@ function createTherapistCards() {
     const therapistGrid = document.querySelector('.therapist-grid');
     if (!therapistGrid) return;
 
-    // SVG placeholder for therapist profile
+    // SVG placeholder for therapist profile (fallback)
     const placeholderSVG = `data:image/svg+xml,${encodeURIComponent(`
         <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="180" height="180" fill="#E6F0FF"/>
@@ -38,10 +39,13 @@ function createTherapistCards() {
             .map(exp => `<span class="expertise-tag">${exp}</span>`)
             .join('');
         
+        // Convert ibb.co link to direct image link
+        const imageUrl = therapist.photo ? therapist.photo.replace('https://ibb.co/', 'https://i.ibb.co/') + '.jpg' : placeholderSVG;
+        
         card.innerHTML = `
             <div class="therapist-content">
                 <div class="therapist-image-container">
-                    <img src="${placeholderSVG}" alt="${therapist.name}" class="therapist-image">
+                    <img src="${imageUrl}" alt="${therapist.name}" class="therapist-image" onerror="this.src='${placeholderSVG}'">
                     <div class="image-overlay"></div>
                 </div>
                 <h3>${therapist.name}</h3>
