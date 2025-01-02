@@ -1,0 +1,22 @@
+{
+  "name": "soulconew",
+  "version": "1.0.0",
+  "description": "Soul Connect - Mental Health Support for NRIs",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "mental-health",
+    "nri",
+    "therapy",
+    "support"
+  ],
+  "author": "Soul Connect",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+} 
