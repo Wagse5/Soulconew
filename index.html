@@ -242,6 +242,67 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="scripts/main.js"></script>
+    <script defer src="scripts/main.js"></script>
+    <script>
+        // Fallback initialization if main.js fails to load
+        window.addEventListener('DOMContentLoaded', () => {
+            if (typeof createTherapistCards === 'undefined') {
+                console.error('Main script not loaded, attempting to initialize directly');
+                // Therapist data
+                const therapists = [
+                    {
+                        name: "Dr. Anjali Mehta",
+                        specialization: "Anxiety & Cultural Identity",
+                        description: "Experienced therapist specializing in anxiety and cultural identity issues faced by NRIs.",
+                        expertise: ["Cultural Adaptation", "Anxiety Management", "Identity Issues"]
+                    },
+                    {
+                        name: "Rahul Sharma",
+                        specialization: "Family Counseling",
+                        description: "Family counseling expert with focus on cross-cultural relationships and parenting.",
+                        expertise: ["Family Dynamics", "Cross-Cultural Relations", "Parenting Support"]
+                    }
+                ];
+
+                const therapistGrid = document.querySelector('.therapist-grid');
+                if (therapistGrid) {
+                    const placeholderSVG = `data:image/svg+xml,${encodeURIComponent(`
+                        <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="180" height="180" fill="#E6F0FF"/>
+                            <circle cx="90" cy="70" r="35" fill="#004D7A"/>
+                            <path d="M50 140C50 117.909 67.909 100 90 100C112.091 100 130 117.909 130 140" stroke="#004D7A" stroke-width="12" stroke-linecap="round"/>
+                        </svg>
+                    `)}`;
+
+                    therapists.forEach((therapist, index) => {
+                        const card = document.createElement('div');
+                        card.className = 'therapist-card glass-card animate-in';
+                        
+                        const expertiseTags = therapist.expertise
+                            .map(exp => `<span class="expertise-tag">${exp}</span>`)
+                            .join('');
+                        
+                        card.innerHTML = `
+                            <div class="therapist-content">
+                                <div class="therapist-image-container">
+                                    <img src="${placeholderSVG}" alt="${therapist.name}" class="therapist-image">
+                                    <div class="image-overlay"></div>
+                                </div>
+                                <h3>${therapist.name}</h3>
+                                <p class="specialization">${therapist.specialization}</p>
+                                <p class="description">${therapist.description}</p>
+                                <div class="expertise-tags">
+                                    ${expertiseTags}
+                                </div>
+                                <a href="#waitlist" class="cta-button">Book a Session</a>
+                            </div>
+                        `;
+                        
+                        therapistGrid.appendChild(card);
+                    });
+                }
+            }
+        });
+    </script>
 </body>
 </html> 

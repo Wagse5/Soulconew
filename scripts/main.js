@@ -32,8 +32,7 @@ function createTherapistCards() {
 
     therapists.forEach((therapist, index) => {
         const card = document.createElement('div');
-        card.className = 'therapist-card';
-        card.style.animationDelay = `${index * 0.2}s`;
+        card.className = 'therapist-card glass-card';
         
         const expertiseTags = therapist.expertise
             .map(exp => `<span class="expertise-tag">${exp}</span>`)
@@ -54,17 +53,11 @@ function createTherapistCards() {
                 <a href="#waitlist" class="cta-button">Book a Session</a>
             </div>
         `;
-        
-        // Add hover effect
-        card.addEventListener('mouseenter', () => {
-            card.style.transform = 'translateY(-10px)';
-            card.style.boxShadow = '0 15px 45px rgba(31, 38, 135, 0.3)';
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'translateY(0)';
-            card.style.boxShadow = '0 8px 32px rgba(31, 38, 135, 0.15)';
-        });
+
+        // Add animation class after a delay
+        setTimeout(() => {
+            card.classList.add('animate-in');
+        }, index * 200);
         
         therapistGrid.appendChild(card);
     });
@@ -72,6 +65,17 @@ function createTherapistCards() {
 
 // Intersection Observer for animations
 function setupIntersectionObserver() {
+    if (!('IntersectionObserver' in window)) {
+        // Fallback for browsers that don't support IntersectionObserver
+        document.querySelectorAll('.glass-card, .section-title, .mission-text, .testimonial-card').forEach(el => {
+            el.classList.add('animate-in');
+            if (el.classList.contains('testimonial-card')) {
+                el.style.opacity = '1';
+            }
+        });
+        return;
+    }
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -226,8 +230,8 @@ function setupMobileMenu() {
     });
 }
 
-// Initialize all functionality when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize all functionality
+function initializeAll() {
     createTherapistCards();
     setupIntersectionObserver();
     setupSmoothScroll();
@@ -235,7 +239,15 @@ document.addEventListener('DOMContentLoaded', () => {
     setupParallax();
     setupScrollProgress();
     setupMobileMenu();
-});
+}
+
+// Initialize on DOMContentLoaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeAll);
+} else {
+    // DOM already loaded, run initialization
+    initializeAll();
+}
 
 // Handle loading state
 window.addEventListener('load', () => {
