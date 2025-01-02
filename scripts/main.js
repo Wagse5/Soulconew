@@ -3,17 +3,25 @@
 // Therapist data
 const therapists = [
     {
-        name: "Aryan Bharghav",
-        photo: "https://ibb.co/59vKF3G",
-        specialization: "Anxiety & Cultural Identity",
-        description: "Experienced therapist specializing in anxiety and cultural identity issues faced by NRIs.",
-        expertise: ["Cultural Adaptation", "Anxiety Management", "Identity Issues"]
+        name: "G Sharath Chandra",
+        photo: "https://i.ibb.co/59vKF3G/aryan-2.jpg",
+        specialization: "Mental Health & Cultural Integration",
+        description: "Dedicated male therapist specializing in helping NRIs navigate cultural transitions and mental wellness. Expert in addressing male-specific mental health challenges in foreign environments.",
+        expertise: ["Cultural Integration", "Men's Mental Health", "Career Stress Management"]
     },
     {
-        name: "Rahul Sharma",
-        specialization: "Family Counseling",
-        description: "Family counseling expert with focus on cross-cultural relationships and parenting.",
-        expertise: ["Family Dynamics", "Cross-Cultural Relations", "Parenting Support"]
+        name: "Catherine Mary Joy",
+        photo: "https://i.ibb.co/4N7mxX6/CMJ.jpg",
+        specialization: "Family Dynamics & Relationships",
+        description: "Empathetic counselor with expertise in family therapy and cross-cultural relationships. Specializes in helping NRI families maintain harmony while adapting to new environments.",
+        expertise: ["Family Counseling", "Relationship Therapy", "Cross-Cultural Adaptation"]
+    },
+    {
+        name: "Malavika R",
+        photo: "https://i.ibb.co/KV5R5Hb/MR.jpg",
+        specialization: "Anxiety & Women's Wellness",
+        description: "Experienced therapist focusing on women's mental health and anxiety management. Helps NRI women balance cultural expectations with personal growth and professional life.",
+        expertise: ["Women's Mental Health", "Anxiety Management", "Work-Life Balance"]
     }
 ];
 
@@ -39,18 +47,14 @@ function createTherapistCards() {
             .map(exp => `<span class="expertise-tag">${exp}</span>`)
             .join('');
         
-        // Convert ibb.co link to direct image link
-        const imageUrl = therapist.photo ? therapist.photo.replace('https://ibb.co/', 'https://i.ibb.co/') + '.jpg' : placeholderSVG;
-        
         card.innerHTML = `
             <div class="therapist-content">
                 <div class="therapist-image-container">
-                    <img src="${imageUrl}" alt="${therapist.name}" class="therapist-image" onerror="this.src='${placeholderSVG}'">
+                    <img src="${therapist.photo}" alt="${therapist.name}" class="therapist-image" onerror="this.src='${placeholderSVG}'">
                     <div class="image-overlay"></div>
                 </div>
                 <h3>${therapist.name}</h3>
                 <p class="specialization">${therapist.specialization}</p>
-                <p class="description">${therapist.description}</p>
                 <div class="expertise-tags">
                     ${expertiseTags}
                 </div>

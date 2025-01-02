@@ -136,81 +136,223 @@ header {
 
 .therapist-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
     max-width: 1200px;
     margin: 0 auto;
 }
 
 .therapist-card {
     background: var(--white);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
-    overflow: hidden;
+    border-radius: 24px;
     position: relative;
+    min-height: 580px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid rgba(0, 77, 122, 0.1);
+    box-shadow: 
+        0 4px 20px rgba(0, 77, 122, 0.08),
+        0 8px 32px rgba(0, 77, 122, 0.05);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    padding: 2rem;
+}
+
+.therapist-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 
+        0 8px 30px rgba(0, 77, 122, 0.12),
+        0 16px 40px rgba(0, 77, 122, 0.08);
 }
 
 .therapist-content {
-    padding: 2rem;
-    text-align: center;
+    display: grid;
+    grid-template-rows: auto minmax(40px, auto) minmax(60px, auto) 1fr auto;
+    align-items: start;
+    width: 100%;
+    height: 100%;
+    gap: 1.5rem;
+}
+
+.therapist-image-container {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
 }
 
 .therapist-image {
-    width: 180px;
-    height: 180px;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
-    margin: 0 auto 1.5rem;
     object-fit: cover;
     border: 4px solid var(--white);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 
+        0 4px 15px rgba(0, 77, 122, 0.1),
+        0 8px 30px rgba(0, 77, 122, 0.05);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.therapist-card:hover .therapist-image {
+    transform: scale(1.05);
 }
 
 .therapist-card h3 {
     color: var(--primary-color);
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.75rem;
+    text-align: center;
+    width: 100%;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    padding: 0 1rem;
+    margin: 0;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .therapist-card .specialization {
     color: var(--secondary-color);
     font-weight: 600;
-    margin-bottom: 1rem;
+    text-align: center;
+    width: 100%;
+    font-size: 1.1rem;
+    opacity: 0.9;
+    padding: 0 1rem;
+    margin: 0;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.therapist-card .description {
-    color: var(--text-color);
-    margin-bottom: 1.5rem;
+.expertise-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0 1rem;
+    margin: 0;
 }
 
-/* Add these new styles after your existing therapist section styles */
-
-.therapist-image-container {
-    position: relative;
-    margin-bottom: 1.5rem;
-    transition: transform 0.3s ease;
+.expertise-tag {
+    background: rgba(0, 102, 204, 0.08);
+    color: var(--secondary-color);
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-align: center;
+    border: 1px solid rgba(0, 102, 204, 0.15);
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
 }
 
-.therapist-image {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid var(--white);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+.expertise-tag:hover {
+    background: rgba(0, 102, 204, 0.12);
+    transform: translateY(-2px);
 }
 
+.therapist-card .cta-button {
+    width: 100%;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 77, 122, 0.15);
+    text-decoration: none;
+    margin-top: auto;
+}
+
+.therapist-card .cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 77, 122, 0.25);
+}
+
+/* Custom scrollbar styles */
+.therapist-card .description::-webkit-scrollbar {
+    width: 4px;
+}
+
+.therapist-card .description::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 2px;
+}
+
+.therapist-card .description::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .therapist-content {
+        gap: 1rem;
+    }
+
+    .therapist-image-container {
+        width: 180px;
+        height: 180px;
+        margin-bottom: 0.75rem;
+    }
+
+    .therapist-card h3 {
+        font-size: 1.5rem;
+        min-height: 35px;
+    }
+
+    .therapist-card .specialization {
+        font-size: 1rem;
+        min-height: 50px;
+    }
+
+    .expertise-tags {
+        gap: 0.5rem;
+    }
+
+    .expertise-tag {
+        font-size: 0.85rem;
+        padding: 0.4rem 1rem;
+        height: 32px;
+    }
+
+    .therapist-card .cta-button {
+        height: 44px;
+        font-size: 1rem;
+    }
+}
+
+/* Image overlay effect */
 .image-overlay {
     position: absolute;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 180px;
-    height: 180px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(0, 102, 204, 0.2) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(0, 102, 204, 0.15) 0%, transparent 70%);
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
 }
 
 .therapist-card:hover .image-overlay {
