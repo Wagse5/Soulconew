@@ -25,7 +25,7 @@ function createTherapistCards() {
 
     therapists.forEach((therapist, index) => {
         const card = document.createElement('div');
-        card.className = 'therapist-card glass-card animate-in';
+        card.className = 'therapist-card';
         card.style.animationDelay = `${index * 0.2}s`;
         
         const expertiseTags = therapist.expertise
@@ -36,7 +36,7 @@ function createTherapistCards() {
             <div class="therapist-content">
                 <div class="therapist-image-container">
                     <img src="${therapist.photo}" alt="${therapist.name}" class="therapist-image" 
-                         onerror="this.src='https://via.placeholder.com/150'">
+                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE1MCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiNFNkYwRkYiLz48cGF0aCBkPSJNNzUgODBDODguODA3MSA4MCAxMDAgNjguODA3MSAxMDAgNTVDMTAwIDQxLjE5MjkgODguODA3MSAzMCA3NSAzMEM2MS4xOTI5IDMwIDUwIDQxLjE5MjkgNTAgNTVDNTAgNjguODA3MSA2MS4xOTI5IDgwIDc1IDgwWiIgZmlsbD0iIzAwNEQ3QSIvPjxwYXRoIGQ9Ik0xMTAgMTIwQzExMCAxMDMuNDMxIDk0Ljg1MjggOTAgNzUgOTBDNTUuMTQ3MiA5MCA0MCAxMDMuNDMxIDQwIDEyMCIgc3Ryb2tlPSIjMDA0RDdBIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg=='">
                     <div class="image-overlay"></div>
                 </div>
                 <h3>${therapist.name}</h3>
