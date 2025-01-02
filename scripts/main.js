@@ -4,24 +4,31 @@
 const therapists = [
     {
         name: "Dr. Anjali Mehta",
-        photo: "assets/images/therapist1.jpg", // Placeholder image path
         specialization: "Anxiety & Cultural Identity",
         description: "Experienced therapist specializing in anxiety and cultural identity issues faced by NRIs.",
         expertise: ["Cultural Adaptation", "Anxiety Management", "Identity Issues"]
     },
     {
         name: "Rahul Sharma",
-        photo: "assets/images/therapist2.jpg", // Placeholder image path
         specialization: "Family Counseling",
         description: "Family counseling expert with focus on cross-cultural relationships and parenting.",
         expertise: ["Family Dynamics", "Cross-Cultural Relations", "Parenting Support"]
     }
 ];
 
-// Function to create therapist cards
+// Function to create therapist cards with SVG placeholders
 function createTherapistCards() {
     const therapistGrid = document.querySelector('.therapist-grid');
     if (!therapistGrid) return;
+
+    // SVG placeholder for therapist profile
+    const placeholderSVG = `data:image/svg+xml,${encodeURIComponent(`
+        <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="180" height="180" fill="#E6F0FF"/>
+            <circle cx="90" cy="70" r="35" fill="#004D7A"/>
+            <path d="M50 140C50 117.909 67.909 100 90 100C112.091 100 130 117.909 130 140" stroke="#004D7A" stroke-width="12" stroke-linecap="round"/>
+        </svg>
+    `)}`;
 
     therapists.forEach((therapist, index) => {
         const card = document.createElement('div');
@@ -35,8 +42,7 @@ function createTherapistCards() {
         card.innerHTML = `
             <div class="therapist-content">
                 <div class="therapist-image-container">
-                    <img src="${therapist.photo}" alt="${therapist.name}" class="therapist-image" 
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE1MCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiNFNkYwRkYiLz48cGF0aCBkPSJNNzUgODBDODguODA3MSA4MCAxMDAgNjguODA3MSAxMDAgNTVDMTAwIDQxLjE5MjkgODguODA3MSAzMCA3NSAzMEM2MS4xOTI5IDMwIDUwIDQxLjE5MjkgNTAgNTVDNTAgNjguODA3MSA2MS4xOTI5IDgwIDc1IDgwWiIgZmlsbD0iIzAwNEQ3QSIvPjxwYXRoIGQ9Ik0xMTAgMTIwQzExMCAxMDMuNDMxIDk0Ljg1MjggOTAgNzUgOTBDNTUuMTQ3MiA5MCA0MCAxMDMuNDMxIDQwIDEyMCIgc3Ryb2tlPSIjMDA0RDdBIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg=='">
+                    <img src="${placeholderSVG}" alt="${therapist.name}" class="therapist-image">
                     <div class="image-overlay"></div>
                 </div>
                 <h3>${therapist.name}</h3>
