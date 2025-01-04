@@ -25,6 +25,28 @@ const therapists = [
     }
 ];
 
+// Peer Moderator data
+const moderators = [
+    {
+        name: "Priya Sharma",
+        photo: "",
+        specialization: "Cultural Transition Support",
+        expertise: ["NRI Experience", "Cultural Adaptation", "Peer Support"]
+    },
+    {
+        name: "Rahul Kapoor",
+        photo: "",
+        specialization: "Career & Life Balance",
+        expertise: ["Work-Life Balance", "Professional Growth", "Stress Management"]
+    },
+    {
+        name: "Anjali Patel",
+        photo: "",
+        specialization: "Family & Relationships",
+        expertise: ["Family Dynamics", "Cross-Cultural Dating", "Social Integration"]
+    }
+];
+
 // Function to create therapist cards with SVG placeholders
 function createTherapistCards() {
     const therapistGrid = document.querySelector('.therapist-grid');
@@ -68,6 +90,52 @@ function createTherapistCards() {
         }, index * 200);
         
         therapistGrid.appendChild(card);
+    });
+}
+
+// Function to create moderator cards
+function createModeratorCards() {
+    const moderatorGrid = document.querySelector('.moderator-grid');
+    if (!moderatorGrid) return;
+
+    // SVG placeholder for profile (fallback)
+    const placeholderSVG = `data:image/svg+xml,${encodeURIComponent(`
+        <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="180" height="180" fill="#E6F0FF"/>
+            <circle cx="90" cy="70" r="35" fill="#004D7A"/>
+            <path d="M50 140C50 117.909 67.909 100 90 100C112.091 100 130 117.909 130 140" stroke="#004D7A" stroke-width="12" stroke-linecap="round"/>
+        </svg>
+    `)}`;
+
+    moderators.forEach((moderator, index) => {
+        const card = document.createElement('div');
+        card.className = 'moderator-card glass-card';
+        
+        const expertiseTags = moderator.expertise
+            .map(exp => `<span class="expertise-tag">${exp}</span>`)
+            .join('');
+        
+        card.innerHTML = `
+            <div class="moderator-content">
+                <div class="moderator-image-container">
+                    <img src="${moderator.photo || placeholderSVG}" alt="${moderator.name}" class="moderator-image" onerror="this.src='${placeholderSVG}'">
+                    <div class="image-overlay"></div>
+                </div>
+                <h3>${moderator.name}</h3>
+                <p class="specialization">${moderator.specialization}</p>
+                <div class="expertise-tags">
+                    ${expertiseTags}
+                </div>
+                <a href="#waitlist" class="cta-button">Connect with Peer</a>
+            </div>
+        `;
+
+        // Add animation class after a delay
+        setTimeout(() => {
+            card.classList.add('animate-in');
+        }, index * 200);
+        
+        moderatorGrid.appendChild(card);
     });
 }
 
@@ -241,6 +309,7 @@ function setupMobileMenu() {
 // Initialize all functionality
 function initializeAll() {
     createTherapistCards();
+    createModeratorCards();
     setupIntersectionObserver();
     setupSmoothScroll();
     setupScrollEffect();

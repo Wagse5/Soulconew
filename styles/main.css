@@ -922,4 +922,168 @@ section:nth-child(even) {
 .nav-blur {
     transform: none !important;
     transition: background-color 0.3s ease;
-} 
+}
+
+/* Moderator Section */
+.moderator-section {
+    background: var(--background-color);
+    padding: 6rem 2rem;
+}
+
+.moderator-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.moderator-card {
+    background: var(--white);
+    border-radius: 24px;
+    position: relative;
+    min-height: 580px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid rgba(0, 77, 122, 0.1);
+    box-shadow: 
+        0 4px 20px rgba(0, 77, 122, 0.08),
+        0 8px 32px rgba(0, 77, 122, 0.05);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    padding: 2rem;
+}
+
+.moderator-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 
+        0 8px 30px rgba(0, 77, 122, 0.12),
+        0 16px 40px rgba(0, 77, 122, 0.08);
+}
+
+.moderator-content {
+    display: grid;
+    grid-template-rows: auto minmax(40px, auto) minmax(60px, auto) 1fr auto;
+    align-items: start;
+    width: 100%;
+    height: 100%;
+    gap: 1.5rem;
+}
+
+.moderator-image-container {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.moderator-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--white);
+    box-shadow: 
+        0 4px 15px rgba(0, 77, 122, 0.1),
+        0 8px 30px rgba(0, 77, 122, 0.05);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.moderator-card:hover .moderator-image {
+    transform: scale(1.05);
+}
+
+.moderator-card h3 {
+    color: var(--primary-color);
+    font-size: 1.75rem;
+    text-align: center;
+    width: 100%;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    padding: 0 1rem;
+    margin: 0;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.moderator-card .specialization {
+    color: var(--secondary-color);
+    font-weight: 600;
+    text-align: center;
+    width: 100%;
+    font-size: 1.1rem;
+    opacity: 0.9;
+    padding: 0 1rem;
+    margin: 0;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.moderator-card .expertise-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0 1rem;
+    margin: 0;
+}
+
+.moderator-card .cta-button {
+    width: 100%;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 77, 122, 0.15);
+    text-decoration: none;
+    margin-top: auto;
+}
+
+/* Responsive adjustments for moderators */
+@media (max-width: 768px) {
+    .moderator-content {
+        gap: 1rem;
+    }
+
+    .moderator-image-container {
+        width: 180px;
+        height: 180px;
+        margin-bottom: 0.75rem;
+    }
+
+    .moderator-card h3 {
+        font-size: 1.5rem;
+        min-height: 35px;
+    }
+
+    .moderator-card .specialization {
+        font-size: 1rem;
+        min-height: 50px;
+    }
+
+    .moderator-card .expertise-tags {
+        gap: 0.5rem;
+    }
+
+    .moderator-card .cta-button {
+        height: 44px;
+        font-size: 1rem;
+    }
+}   
