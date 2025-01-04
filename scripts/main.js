@@ -6,44 +6,107 @@ const therapists = [
         name: "G Sharath Chandra",
         photo: "https://i.ibb.co/59vKF3G/aryan-2.jpg",
         specialization: "Mental Health & Cultural Integration",
-        description: "Dedicated male therapist specializing in helping NRIs navigate cultural transitions and mental wellness. Expert in addressing male-specific mental health challenges in foreign environments.",
         expertise: ["Cultural Integration", "Men's Mental Health", "Career Stress Management"]
     },
     {
         name: "Catherine Mary Joy",
         photo: "https://i.ibb.co/4N7mxX6/CMJ.jpg",
         specialization: "Family Dynamics & Relationships",
-        description: "Empathetic counselor with expertise in family therapy and cross-cultural relationships. Specializes in helping NRI families maintain harmony while adapting to new environments.",
         expertise: ["Family Counseling", "Relationship Therapy", "Cross-Cultural Adaptation"]
     },
     {
         name: "Malavika R",
         photo: "https://i.ibb.co/KV5R5Hb/MR.jpg",
         specialization: "Anxiety & Women's Wellness",
-        description: "Experienced therapist focusing on women's mental health and anxiety management. Helps NRI women balance cultural expectations with personal growth and professional life.",
         expertise: ["Women's Mental Health", "Anxiety Management", "Work-Life Balance"]
+    },
+    {
+        name: "Dr. Rajesh Kumar",
+        photo: "",
+        specialization: "Depression & Anxiety Management",
+        expertise: ["Clinical Depression", "Anxiety Disorders", "Mindfulness Therapy"]
+    },
+    {
+        name: "Dr. Sarah Matthews",
+        photo: "",
+        specialization: "Youth & Teen Counseling",
+        expertise: ["Teen Psychology", "Academic Stress", "Identity Development"]
     }
 ];
 
 // Peer Moderator data
 const moderators = [
+    // Verified Moderators
     {
         name: "Priya Sharma",
         photo: "",
         specialization: "Cultural Transition Support",
-        expertise: ["NRI Experience", "Cultural Adaptation", "Peer Support"]
+        expertise: ["NRI Experience", "Cultural Adaptation", "Peer Support"],
+        isVerified: true,
+        badgeText: "Lead Moderator",
+        badgeType: "lead",
+        group: "verified"
     },
     {
         name: "Rahul Kapoor",
         photo: "",
         specialization: "Career & Life Balance",
-        expertise: ["Work-Life Balance", "Professional Growth", "Stress Management"]
+        expertise: ["Work-Life Balance", "Professional Growth", "Stress Management"],
+        isVerified: true,
+        badgeText: "Senior Moderator",
+        badgeType: "senior",
+        group: "verified"
     },
     {
         name: "Anjali Patel",
         photo: "",
         specialization: "Family & Relationships",
-        expertise: ["Family Dynamics", "Cross-Cultural Dating", "Social Integration"]
+        expertise: ["Family Dynamics", "Cross-Cultural Dating", "Social Integration"],
+        isVerified: true,
+        badgeText: "Expert Moderator",
+        badgeType: "expert",
+        group: "verified"
+    },
+    {
+        name: "Michael Chen",
+        photo: "",
+        specialization: "International Student Support",
+        expertise: ["Academic Life", "Cultural Exchange", "Student Wellness"],
+        isVerified: true,
+        badgeText: "Verified Moderator",
+        badgeType: "verified",
+        group: "verified"
+    },
+    // Training Moderators
+    {
+        name: "Neha Gupta",
+        photo: "",
+        specialization: "Mental Health Awareness",
+        expertise: ["Mental Health Education", "Community Support", "Wellness Programs"],
+        isVerified: false,
+        badgeText: "Training Moderator",
+        badgeType: "training",
+        group: "training"
+    },
+    {
+        name: "James Wilson",
+        photo: "",
+        specialization: "Expat Life Integration",
+        expertise: ["Cultural Adjustment", "Social Networking", "Life Transitions"],
+        isVerified: false,
+        badgeText: "Training Moderator",
+        badgeType: "training",
+        group: "training"
+    },
+    {
+        name: "Lisa Rodriguez",
+        photo: "",
+        specialization: "Wellness & Lifestyle",
+        expertise: ["Holistic Wellness", "Work-Life Balance", "Stress Relief"],
+        isVerified: false,
+        badgeText: "Training Moderator",
+        badgeType: "training",
+        group: "training"
     }
 ];
 
@@ -98,6 +161,9 @@ function createModeratorCards() {
     const moderatorGrid = document.querySelector('.moderator-grid');
     if (!moderatorGrid) return;
 
+    // Clear existing content
+    moderatorGrid.innerHTML = '';
+
     // SVG placeholder for profile (fallback)
     const placeholderSVG = `data:image/svg+xml,${encodeURIComponent(`
         <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -107,7 +173,41 @@ function createModeratorCards() {
         </svg>
     `)}`;
 
-    moderators.forEach((moderator, index) => {
+    // Verification tick SVG
+    const verifiedTickSVG = `
+        <svg viewBox="0 0 24 24" width="14" height="14">
+            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/>
+        </svg>
+    `;
+
+    // Group moderators
+    const verifiedModerators = moderators.filter(m => m.group === 'verified');
+    const trainingModerators = moderators.filter(m => m.group === 'training');
+
+    // Create group headers and cards
+    if (verifiedModerators.length > 0) {
+        const verifiedHeader = document.createElement('div');
+        verifiedHeader.className = 'moderator-group-header';
+        verifiedHeader.innerHTML = '<h3>Verified Moderators</h3>';
+        moderatorGrid.appendChild(verifiedHeader);
+
+        verifiedModerators.forEach((moderator, index) => {
+            createModeratorCard(moderator, index);
+        });
+    }
+
+    if (trainingModerators.length > 0) {
+        const trainingHeader = document.createElement('div');
+        trainingHeader.className = 'moderator-group-header';
+        trainingHeader.innerHTML = '<h3>Training Moderators</h3>';
+        moderatorGrid.appendChild(trainingHeader);
+
+        trainingModerators.forEach((moderator, index) => {
+            createModeratorCard(moderator, index);
+        });
+    }
+
+    function createModeratorCard(moderator, index) {
         const card = document.createElement('div');
         card.className = 'moderator-card glass-card';
         
@@ -115,8 +215,23 @@ function createModeratorCards() {
             .map(exp => `<span class="expertise-tag">${exp}</span>`)
             .join('');
         
+        // Add verification badge and text if moderator is verified
+        const badges = moderator.isVerified ? `
+            <div class="moderator-badge">
+                <div class="verified-icon" title="Verified Moderator">
+                    ${verifiedTickSVG}
+                </div>
+                ${moderator.badgeText ? `<span class="badge-text ${moderator.badgeType}-badge">${moderator.badgeText}</span>` : ''}
+            </div>
+        ` : moderator.badgeText ? `
+            <div class="moderator-badge">
+                <span class="badge-text ${moderator.badgeType}-badge">${moderator.badgeText}</span>
+            </div>
+        ` : '';
+        
         card.innerHTML = `
             <div class="moderator-content">
+                ${badges}
                 <div class="moderator-image-container">
                     <img src="${moderator.photo || placeholderSVG}" alt="${moderator.name}" class="moderator-image" onerror="this.src='${placeholderSVG}'">
                     <div class="image-overlay"></div>
@@ -136,7 +251,7 @@ function createModeratorCards() {
         }, index * 200);
         
         moderatorGrid.appendChild(card);
-    });
+    }
 }
 
 // Intersection Observer for animations

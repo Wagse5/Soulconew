@@ -286,19 +286,28 @@
                         name: "Priya Sharma",
                         photo: "",
                         specialization: "Cultural Transition Support",
-                        expertise: ["NRI Experience", "Cultural Adaptation", "Peer Support"]
+                        expertise: ["NRI Experience", "Cultural Adaptation", "Peer Support"],
+                        isVerified: true,
+                        badgeText: "Lead Moderator",
+                        badgeType: "lead"
                     },
                     {
                         name: "Rahul Kapoor",
                         photo: "",
                         specialization: "Career & Life Balance",
-                        expertise: ["Work-Life Balance", "Professional Growth", "Stress Management"]
+                        expertise: ["Work-Life Balance", "Professional Growth", "Stress Management"],
+                        isVerified: true,
+                        badgeText: "Expert Moderator",
+                        badgeType: "expert"
                     },
                     {
                         name: "Anjali Patel",
                         photo: "",
                         specialization: "Family & Relationships",
-                        expertise: ["Family Dynamics", "Cross-Cultural Dating", "Social Integration"]
+                        expertise: ["Family Dynamics", "Cross-Cultural Dating", "Social Integration"],
+                        isVerified: true,
+                        badgeText: "Verified Moderator",
+                        badgeType: "verified"
                     }
                 ];
 
@@ -313,6 +322,13 @@
                             <path d="M50 140C50 117.909 67.909 100 90 100C112.091 100 130 117.909 130 140" stroke="#004D7A" stroke-width="12" stroke-linecap="round"/>
                         </svg>
                     `)}`;
+
+                    // Verification tick SVG
+                    const verifiedTickSVG = `
+                        <svg viewBox="0 0 24 24" width="14" height="14">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/>
+                        </svg>
+                    `;
 
                     // Create therapist cards
                     if (therapistGrid) {
@@ -353,8 +369,19 @@
                                 .map(exp => `<span class="expertise-tag">${exp}</span>`)
                                 .join('');
                             
+                            // Add verification badge and text if moderator is verified
+                            const badges = moderator.isVerified ? `
+                                <div class="moderator-badge">
+                                    <div class="verified-icon" title="Verified Moderator">
+                                        ${verifiedTickSVG}
+                                    </div>
+                                    ${moderator.badgeText ? `<span class="badge-text">${moderator.badgeText}</span>` : ''}
+                                </div>
+                            ` : '';
+                            
                             card.innerHTML = `
                                 <div class="moderator-content">
+                                    ${badges}
                                     <div class="moderator-image-container">
                                         <img src="${moderator.photo || placeholderSVG}" alt="${moderator.name}" class="moderator-image" onerror="this.src='${placeholderSVG}'">
                                         <div class="image-overlay"></div>
