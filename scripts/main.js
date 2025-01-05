@@ -21,10 +21,10 @@ const therapists = [
         expertise: ["Women's Mental Health", "Anxiety Management", "Work-Life Balance"]
     },
     {
-        name: "Dr. Rajesh Kumar",
-        photo: "",
-        specialization: "Depression & Anxiety Management",
-        expertise: ["Clinical Depression", "Anxiety Disorders", "Mindfulness Therapy"]
+        name: "Shashank Shukla",
+        photo: "https://i.ibb.co/CsQyqTp/shashank.jpg",
+        specialization: "Emotion Focused Therapy",
+        expertise: ["Romantic Relationships", "Connection", "Heartbreak"]
     },
     {
         name: "Dr. Sarah Matthews",
@@ -37,6 +37,16 @@ const therapists = [
 // Peer Moderator data
 const moderators = [
     // Verified Moderators
+    {
+        name: "Chaitanya Kanoria",
+        photo: "https://i.ibb.co/gDwDXXM/chaitanya.jpg",
+        specialization: "Peer Specialist & Compassionate Communication",
+        expertise: ["Communication Skills", "Philosophy & Spirituality", "Human Values"],
+        isVerified: true,
+        badgeText: "Expert Moderator",
+        badgeType: "expert",
+        group: "verified"
+    },
     {
         name: "Priya Sharma",
         photo: "",
@@ -55,16 +65,6 @@ const moderators = [
         isVerified: true,
         badgeText: "Senior Moderator",
         badgeType: "senior",
-        group: "verified"
-    },
-    {
-        name: "Anjali Patel",
-        photo: "",
-        specialization: "Family & Relationships",
-        expertise: ["Family Dynamics", "Cross-Cultural Dating", "Social Integration"],
-        isVerified: true,
-        badgeText: "Expert Moderator",
-        badgeType: "expert",
         group: "verified"
     },
     {
