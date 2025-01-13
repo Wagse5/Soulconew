@@ -252,12 +252,16 @@
     </footer>
 
     <!-- Scripts -->
-    <script defer src="scripts/main.js"></script>
+    <script type="module" src="scripts/main.js"></script>
     <script>
         // Fallback initialization if main.js fails to load
         window.addEventListener('DOMContentLoaded', () => {
-            if (typeof createTherapistCards === 'undefined') {
-                console.error('Main script not loaded, attempting to initialize directly');
+            // Check if cards have already been created
+            const therapistGrid = document.querySelector('.therapist-grid');
+            const moderatorGrid = document.querySelector('.moderator-grid');
+            
+            if ((!therapistGrid || !therapistGrid.children.length) && (!moderatorGrid || !moderatorGrid.children.length)) {
+                console.warn('Main script not loaded, using fallback initialization');
                 
                 // Therapist data
                 const therapists = [
@@ -270,8 +274,8 @@
                     {
                         name: "Apurva Upadhyay",
                         photo: "https://i.ibb.co/2qnQ1DJ/apurva.jpg",
-                        specialization: "Women's Mental Health & Empowerment",
-                        expertise: ["Women's Wellness", "Self-Development", "Relationship Counseling"]
+                        specialization: "Mental Health & Family Support",
+                        expertise: ["Depression & Anxiety", "Family Counseling", "Support Group Facilitation"]
                     },
                     {
                         name: "Catherine Mary Joy",
@@ -459,7 +463,7 @@
                                 <div class="moderator-content">
                                     ${badges}
                                     <div class="moderator-image-container">
-                                        <img src="${moderator.photo || placeholderSVG}" alt="${moderator.name}" class="moderator-image" onerror="this.src='${placeholderSVG}'">
+                                        <img src="${moderator.photo}" alt="${moderator.name}" class="moderator-image" onerror="this.src='${placeholderSVG}'">
                                         <div class="image-overlay"></div>
                                     </div>
                                     <h3>${moderator.name}</h3>
@@ -479,4 +483,4 @@
         });
     </script>
 </body>
-</html> 
+</html>
