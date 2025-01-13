@@ -1185,14 +1185,6 @@ section:nth-child(even) {
     background: linear-gradient(135deg, #00a3ff, #0066cc);
 }
 
-.training-badge {
-    background: linear-gradient(135deg, #9B59B6, #8E44AD);
-}
-
-.verified-icon {
-    background: linear-gradient(135deg, #00a3ff, #0066cc);
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .moderator-group-header h3 {

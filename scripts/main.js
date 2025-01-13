@@ -9,6 +9,12 @@ const therapists = [
         expertise: ["Cultural Integration", "Men's Mental Health", "Career Stress Management"]
     },
     {
+        name: "Apurva Upadhyay",
+        photo: "https://i.ibb.co/2qnQ1DJ/apurva.jpg",
+        specialization: "Women's Mental Health & Empowerment",
+        expertise: ["Women's Wellness", "Self-Development", "Relationship Counseling"]
+    },
+    {
         name: "Catherine Mary Joy",
         photo: "https://i.ibb.co/4N7mxX6/CMJ.jpg",
         specialization: "Family Dynamics & Relationships",
@@ -36,7 +42,6 @@ const therapists = [
 
 // Peer Moderator data
 const moderators = [
-    // Verified Moderators
     {
         name: "Chaitanya Kanoria",
         photo: "https://i.ibb.co/gDwDXXM/chaitanya.jpg",
@@ -45,6 +50,16 @@ const moderators = [
         isVerified: true,
         badgeText: "Expert Moderator",
         badgeType: "expert",
+        group: "verified"
+    },
+    {
+        name: "Abhuday Singh",
+        photo: "https://i.ibb.co/LNCb19V/abhuday.jpg",
+        specialization: "Men's Mental Health & Wellness",
+        expertise: ["Men's Mental Health", "Personal Growth", "Stress Management"],
+        isVerified: true,
+        badgeText: "Senior Moderator",
+        badgeType: "senior",
         group: "verified"
     },
     {
@@ -76,57 +91,17 @@ const moderators = [
         badgeText: "Verified Moderator",
         badgeType: "verified",
         group: "verified"
-    },
-    // Training Moderators
-    {
-        name: "Neha Gupta",
-        photo: "",
-        specialization: "Mental Health Awareness",
-        expertise: ["Mental Health Education", "Community Support", "Wellness Programs"],
-        isVerified: false,
-        badgeText: "Training Moderator",
-        badgeType: "training",
-        group: "training"
-    },
-    {
-        name: "James Wilson",
-        photo: "",
-        specialization: "Expat Life Integration",
-        expertise: ["Cultural Adjustment", "Social Networking", "Life Transitions"],
-        isVerified: false,
-        badgeText: "Training Moderator",
-        badgeType: "training",
-        group: "training"
-    },
-    {
-        name: "Lisa Rodriguez",
-        photo: "",
-        specialization: "Wellness & Lifestyle",
-        expertise: ["Holistic Wellness", "Work-Life Balance", "Stress Relief"],
-        isVerified: false,
-        badgeText: "Training Moderator",
-        badgeType: "training",
-        group: "training"
     }
 ];
 
-// Function to create therapist cards with SVG placeholders
+// Function to create therapist cards
 function createTherapistCards() {
     const therapistGrid = document.querySelector('.therapist-grid');
     if (!therapistGrid) return;
 
-    // SVG placeholder for therapist profile (fallback)
-    const placeholderSVG = `data:image/svg+xml,${encodeURIComponent(`
-        <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="180" height="180" fill="#E6F0FF"/>
-            <circle cx="90" cy="70" r="35" fill="#004D7A"/>
-            <path d="M50 140C50 117.909 67.909 100 90 100C112.091 100 130 117.909 130 140" stroke="#004D7A" stroke-width="12" stroke-linecap="round"/>
-        </svg>
-    `)}`;
-
     therapists.forEach((therapist, index) => {
         const card = document.createElement('div');
-        card.className = 'therapist-card glass-card';
+        card.className = 'therapist-card';
         
         const expertiseTags = therapist.expertise
             .map(exp => `<span class="expertise-tag">${exp}</span>`)
@@ -135,7 +110,7 @@ function createTherapistCards() {
         card.innerHTML = `
             <div class="therapist-content">
                 <div class="therapist-image-container">
-                    <img src="${therapist.photo}" alt="${therapist.name}" class="therapist-image" onerror="this.src='${placeholderSVG}'">
+                    <img src="${therapist.photo}" alt="${therapist.name}" class="therapist-image" onerror="this.src='data:image/svg+xml,${encodeURIComponent(`<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="180" height="180" fill="#E6F0FF"/><circle cx="90" cy="70" r="35" fill="#004D7A"/><path d="M50 140C50 117.909 67.909 100 90 100C112.091 100 130 117.909 130 140" stroke="#004D7A" stroke-width="12" stroke-linecap="round"/></svg>`)}'">
                     <div class="image-overlay"></div>
                 </div>
                 <h3>${therapist.name}</h3>
@@ -161,79 +136,34 @@ function createModeratorCards() {
     const moderatorGrid = document.querySelector('.moderator-grid');
     if (!moderatorGrid) return;
 
-    // Clear existing content
-    moderatorGrid.innerHTML = '';
-
-    // SVG placeholder for profile (fallback)
-    const placeholderSVG = `data:image/svg+xml,${encodeURIComponent(`
-        <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="180" height="180" fill="#E6F0FF"/>
-            <circle cx="90" cy="70" r="35" fill="#004D7A"/>
-            <path d="M50 140C50 117.909 67.909 100 90 100C112.091 100 130 117.909 130 140" stroke="#004D7A" stroke-width="12" stroke-linecap="round"/>
-        </svg>
-    `)}`;
-
-    // Verification tick SVG
-    const verifiedTickSVG = `
-        <svg viewBox="0 0 24 24" width="14" height="14">
-            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/>
-        </svg>
-    `;
-
-    // Group moderators
-    const verifiedModerators = moderators.filter(m => m.group === 'verified');
-    const trainingModerators = moderators.filter(m => m.group === 'training');
-
-    // Create group headers and cards
-    if (verifiedModerators.length > 0) {
-        const verifiedHeader = document.createElement('div');
-        verifiedHeader.className = 'moderator-group-header';
-        verifiedHeader.innerHTML = '<h3>Verified Moderators</h3>';
-        moderatorGrid.appendChild(verifiedHeader);
-
-        verifiedModerators.forEach((moderator, index) => {
-            createModeratorCard(moderator, index);
-        });
-    }
-
-    if (trainingModerators.length > 0) {
-        const trainingHeader = document.createElement('div');
-        trainingHeader.className = 'moderator-group-header';
-        trainingHeader.innerHTML = '<h3>Training Moderators</h3>';
-        moderatorGrid.appendChild(trainingHeader);
-
-        trainingModerators.forEach((moderator, index) => {
-            createModeratorCard(moderator, index);
-        });
-    }
-
-    function createModeratorCard(moderator, index) {
+    moderators.forEach((moderator, index) => {
         const card = document.createElement('div');
-        card.className = 'moderator-card glass-card';
+        card.className = 'moderator-card';
         
         const expertiseTags = moderator.expertise
             .map(exp => `<span class="expertise-tag">${exp}</span>`)
             .join('');
         
-        // Add verification badge and text if moderator is verified
-        const badges = moderator.isVerified ? `
+        const verifiedTickSVG = `
+            <svg viewBox="0 0 24 24" width="14" height="14">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/>
+            </svg>
+        `;
+        
+        const badges = `
             <div class="moderator-badge">
                 <div class="verified-icon" title="Verified Moderator">
                     ${verifiedTickSVG}
                 </div>
-                ${moderator.badgeText ? `<span class="badge-text ${moderator.badgeType}-badge">${moderator.badgeText}</span>` : ''}
-            </div>
-        ` : moderator.badgeText ? `
-            <div class="moderator-badge">
                 <span class="badge-text ${moderator.badgeType}-badge">${moderator.badgeText}</span>
             </div>
-        ` : '';
+        `;
         
         card.innerHTML = `
             <div class="moderator-content">
                 ${badges}
                 <div class="moderator-image-container">
-                    <img src="${moderator.photo || placeholderSVG}" alt="${moderator.name}" class="moderator-image" onerror="this.src='${placeholderSVG}'">
+                    <img src="${moderator.photo}" alt="${moderator.name}" class="moderator-image" onerror="this.src='data:image/svg+xml,${encodeURIComponent(`<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="180" height="180" fill="#E6F0FF"/><circle cx="90" cy="70" r="35" fill="#004D7A"/><path d="M50 140C50 117.909 67.909 100 90 100C112.091 100 130 117.909 130 140" stroke="#004D7A" stroke-width="12" stroke-linecap="round"/></svg>`)}'">
                     <div class="image-overlay"></div>
                 </div>
                 <h3>${moderator.name}</h3>
@@ -251,7 +181,7 @@ function createModeratorCards() {
         }, index * 200);
         
         moderatorGrid.appendChild(card);
-    }
+    });
 }
 
 // Intersection Observer for animations
