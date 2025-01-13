@@ -1,5 +1,6 @@
 // Main JavaScript for Soul Connect
 import { createTherapistCards, createModeratorCards } from './cards.js';
+import { trackUTMParameters, trackEvent, trackFormSubmission } from './analytics.js';
 
 // Therapist data
 export const therapists = [
@@ -68,8 +69,67 @@ export const moderators = [
 // Initialize the application
 function initializeApp() {
     document.addEventListener('DOMContentLoaded', () => {
+        // Initialize cards
         createTherapistCards(therapists);
         createModeratorCards(moderators);
+
+        // Track UTM parameters on page load
+        trackUTMParameters();
+
+        // Track CTA button clicks
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                trackEvent('CTA Click', {
+                    button_text: e.target.textContent,
+                    button_location: e.target.closest('section')?.id || 'unknown'
+                });
+            });
+        });
+
+        // Track form submissions
+        const waitlistForm = document.querySelector('#waitlist iframe');
+        if (waitlistForm) {
+            waitlistForm.addEventListener('load', () => {
+                // Track when the form is loaded
+                trackEvent('Waitlist Form Loaded');
+            });
+        }
+
+        // Track navigation clicks
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                trackEvent('Navigation Click', {
+                    link_text: e.target.textContent,
+                    link_href: e.target.getAttribute('href')
+                });
+            });
+        });
+
+        // Track therapist card interactions
+        document.querySelector('.therapist-grid')?.addEventListener('click', (e) => {
+            const card = e.target.closest('.therapist-card');
+            if (card) {
+                const name = card.querySelector('h3')?.textContent;
+                const specialization = card.querySelector('.specialization')?.textContent;
+                trackEvent('Therapist Card Click', {
+                    therapist_name: name,
+                    specialization: specialization
+                });
+            }
+        });
+
+        // Track moderator card interactions
+        document.querySelector('.moderator-grid')?.addEventListener('click', (e) => {
+            const card = e.target.closest('.moderator-card');
+            if (card) {
+                const name = card.querySelector('h3')?.textContent;
+                const specialization = card.querySelector('.specialization')?.textContent;
+                trackEvent('Moderator Card Click', {
+                    moderator_name: name,
+                    specialization: specialization
+                });
+            }
+        });
     });
 }
 

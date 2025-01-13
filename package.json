@@ -18,5 +18,8 @@
   "license": "ISC",
   "devDependencies": {
     "vite": "^5.0.0"
+  },
+  "dependencies": {
+    "mixpanel-browser": "^2.58.0"
   }
-} 
+}
