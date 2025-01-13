@@ -135,28 +135,19 @@ header {
 }
 
 .therapist-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2.5rem;
-    max-width: 1200px;
-    margin: 0 auto;
+    display: flex;
+    gap: 40px;
+    padding: 20px 0;
+    position: relative;
+    transition: transform 0.3s ease;
+    margin: 0;
+    scroll-behavior: smooth;
 }
 
 .therapist-card {
-    background: var(--white);
-    border-radius: 24px;
-    position: relative;
-    min-height: 580px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    border: 1px solid rgba(0, 77, 122, 0.1);
-    box-shadow: 
-        0 4px 20px rgba(0, 77, 122, 0.08),
-        0 8px 32px rgba(0, 77, 122, 0.05);
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    padding: 2rem;
+    flex: 0 0 350px;
+    width: 350px;
+    margin: 0;
 }
 
 .therapist-card:hover {
@@ -931,28 +922,19 @@ section:nth-child(even) {
 }
 
 .moderator-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2.5rem;
-    max-width: 1200px;
-    margin: 0 auto;
+    display: flex;
+    gap: 40px;
+    padding: 20px 0;
+    position: relative;
+    transition: transform 0.3s ease;
+    margin: 0;
+    scroll-behavior: smooth;
 }
 
 .moderator-card {
-    background: var(--white);
-    border-radius: 24px;
-    position: relative;
-    min-height: 580px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    border: 1px solid rgba(0, 77, 122, 0.1);
-    box-shadow: 
-        0 4px 20px rgba(0, 77, 122, 0.08),
-        0 8px 32px rgba(0, 77, 122, 0.05);
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    padding: 2rem;
+    flex: 0 0 350px;
+    width: 350px;
+    margin: 0;
 }
 
 .moderator-card:hover {
@@ -1150,18 +1132,24 @@ section:nth-child(even) {
 }   
 
 .moderator-group-header {
-    grid-column: 1 / -1;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+    position: relative;
+    background: var(--background-color);
+    padding: 1rem 0;
+    margin: 1rem 0;
+    z-index: 2;
+    width: 100%;
+    text-align: left;
 }
 
 .moderator-group-header h3 {
     color: var(--primary-color);
     font-size: 1.5rem;
     font-weight: 600;
-    text-align: left;
+    margin: 0;
     padding-left: 1rem;
     border-left: 4px solid var(--primary-color);
+    display: inline-block;
+    background: var(--background-color);
 }
 
 .moderator-group-header:first-child {
@@ -1199,4 +1187,287 @@ section:nth-child(even) {
         font-size: 1.25rem;
         padding-left: 0.75rem;
     }
+}   
+
+/* Grid Layout for Cards */
+.cards-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.therapist-card,
+.moderator-card {
+    width: 100%;
+    height: 100%;
+    min-height: 450px;
+    background: var(--white);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.therapist-card:hover,
+.moderator-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 30px rgba(0, 77, 122, 0.12),
+                0 16px 40px rgba(0, 77, 122, 0.08);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cards-grid .therapist-card:nth-child(1) { animation-delay: 0.1s; }
+.cards-grid .therapist-card:nth-child(2) { animation-delay: 0.2s; }
+.cards-grid .therapist-card:nth-child(3) { animation-delay: 0.3s; }
+.cards-grid .therapist-card:nth-child(4) { animation-delay: 0.4s; }
+.cards-grid .therapist-card:nth-child(5) { animation-delay: 0.5s; }
+.cards-grid .therapist-card:nth-child(6) { animation-delay: 0.6s; }
+
+.cards-grid .moderator-card:nth-child(1) { animation-delay: 0.1s; }
+.cards-grid .moderator-card:nth-child(2) { animation-delay: 0.2s; }
+.cards-grid .moderator-card:nth-child(3) { animation-delay: 0.3s; }
+.cards-grid .moderator-card:nth-child(4) { animation-delay: 0.4s; }
+
+.load-more-btn {
+    display: block;
+    margin: 2rem auto;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--white);
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.load-more-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 102, 204, 0.3);
+}
+
+@media (max-width: 1200px) {
+    .cards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .cards-section {
+        padding: 1rem;
+    }
+    
+    .cards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Remove old carousel styles */
+.carousel-container,
+.carousel-nav {
+    display: none;
+}   
+
+/* Tabs Container */
+.tabs-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tabs-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background: var(--white);
+    color: var(--text-color);
+    font-weight: 600;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tab-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--white);
+}
+
+.tab-content {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Updated Grid Layout */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin: 0;
+    max-width: 1200px;
+}
+
+.cards-section {
+    padding: 4rem 2rem;
+}
+
+/* Card Styles */
+.therapist-card,
+.moderator-card {
+    background: var(--white);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.therapist-content,
+.moderator-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 1rem;
+}
+
+.therapist-image-container,
+.moderator-image-container {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.therapist-image,
+.moderator-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .tabs-navigation {
+        gap: 0.5rem;
+        padding: 0 1rem;
+    }
+
+    .tab-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+
+    .cards-section {
+        padding: 3rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .tabs-navigation {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0 2rem;
+    }
+
+    .tab-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* Animation for cards */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cards-grid > * {
+    animation-fill-mode: both;
+}
+
+.cards-grid > *:nth-child(1) { animation-delay: 0.1s; }
+.cards-grid > *:nth-child(2) { animation-delay: 0.2s; }
+.cards-grid > *:nth-child(3) { animation-delay: 0.3s; }
+.cards-grid > *:nth-child(4) { animation-delay: 0.4s; }
+
+/* Remove old styles */
+.carousel-container,
+.carousel-nav {
+    display: none;
 }   

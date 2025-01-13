@@ -9,6 +9,12 @@ const therapists = [
         expertise: ["Cultural Integration", "Men's Mental Health", "Career Stress Management"]
     },
     {
+        name: "Apurva Upadhyay",
+        photo: "https://i.ibb.co/2qnQ1DJ/Screenshot-2025-01-12-182609.jpg",
+        specialization: "Women's Mental Health & Empowerment",
+        expertise: ["Women's Wellness", "Self-Development", "Relationship Counseling"]
+    },
+    {
         name: "Catherine Mary Joy",
         photo: "https://i.ibb.co/4N7mxX6/CMJ.jpg",
         specialization: "Family Dynamics & Relationships",
@@ -45,6 +51,16 @@ const moderators = [
         isVerified: true,
         badgeText: "Expert Moderator",
         badgeType: "expert",
+        group: "verified"
+    },
+    {
+        name: "Abhuday Singh",
+        photo: "https://i.ibb.co/LNCb19V/Screenshot-2025-01-12-181850.jpg",
+        specialization: "Men's Mental Health & Wellness",
+        expertise: ["Men's Mental Health", "Personal Growth", "Stress Management"],
+        isVerified: true,
+        badgeText: "Senior Moderator",
+        badgeType: "senior",
         group: "verified"
     },
     {
@@ -110,9 +126,9 @@ const moderators = [
     }
 ];
 
-// Function to create therapist cards with SVG placeholders
+// Function to create therapist cards
 function createTherapistCards() {
-    const therapistGrid = document.querySelector('.therapist-grid');
+    const therapistGrid = document.querySelector('#therapists .tab-content[data-tab="all"] .cards-grid');
     if (!therapistGrid) return;
 
     // SVG placeholder for therapist profile (fallback)
@@ -124,9 +140,33 @@ function createTherapistCards() {
         </svg>
     `)}`;
 
-    therapists.forEach((therapist, index) => {
+    // Create cards for each category
+    const categories = {
+        'all': therapistGrid,
+        'mental-health': document.createElement('div'),
+        'relationships': document.createElement('div'),
+        'wellness': document.createElement('div')
+    };
+
+    // Add class to all category divs
+    Object.values(categories).forEach(div => {
+        div.className = 'cards-grid';
+    });
+
+    // Create tab content containers
+    Object.entries(categories).forEach(([category, grid]) => {
+        if (category !== 'all') {
+            const tabContent = document.createElement('div');
+            tabContent.className = 'tab-content';
+            tabContent.setAttribute('data-tab', category);
+            tabContent.appendChild(grid);
+            therapistGrid.parentElement.parentElement.appendChild(tabContent);
+        }
+    });
+
+    therapists.forEach(therapist => {
         const card = document.createElement('div');
-        card.className = 'therapist-card glass-card';
+        card.className = 'therapist-card';
         
         const expertiseTags = therapist.expertise
             .map(exp => `<span class="expertise-tag">${exp}</span>`)
@@ -135,7 +175,7 @@ function createTherapistCards() {
         card.innerHTML = `
             <div class="therapist-content">
                 <div class="therapist-image-container">
-                    <img src="${therapist.photo}" alt="${therapist.name}" class="therapist-image" onerror="this.src='${placeholderSVG}'">
+                    <img src="${therapist.photo || placeholderSVG}" alt="${therapist.name}" class="therapist-image" onerror="this.src='${placeholderSVG}'">
                     <div class="image-overlay"></div>
                 </div>
                 <h3>${therapist.name}</h3>
@@ -147,22 +187,28 @@ function createTherapistCards() {
             </div>
         `;
 
-        // Add animation class after a delay
-        setTimeout(() => {
-            card.classList.add('animate-in');
-        }, index * 200);
+        // Add card to appropriate categories
+        categories['all'].appendChild(card.cloneNode(true));
         
-        therapistGrid.appendChild(card);
+        // Add to other categories based on expertise and specialization
+        const cardText = (therapist.specialization + ' ' + therapist.expertise.join(' ')).toLowerCase();
+        if (cardText.includes('mental health')) {
+            categories['mental-health'].appendChild(card.cloneNode(true));
+        }
+        if (cardText.includes('relationship')) {
+            categories['relationships'].appendChild(card.cloneNode(true));
+        }
+        if (cardText.includes('wellness') || cardText.includes('balance')) {
+            categories['wellness'].appendChild(card.cloneNode(true));
+        }
     });
 }
 
 // Function to create moderator cards
 function createModeratorCards() {
-    const moderatorGrid = document.querySelector('.moderator-grid');
-    if (!moderatorGrid) return;
-
-    // Clear existing content
-    moderatorGrid.innerHTML = '';
+    const verifiedGrid = document.querySelector('#moderators .tab-content[data-tab="verified"] .cards-grid');
+    const trainingGrid = document.querySelector('#moderators .tab-content[data-tab="training"] .cards-grid');
+    if (!verifiedGrid || !trainingGrid) return;
 
     // SVG placeholder for profile (fallback)
     const placeholderSVG = `data:image/svg+xml,${encodeURIComponent(`
@@ -184,38 +230,14 @@ function createModeratorCards() {
     const verifiedModerators = moderators.filter(m => m.group === 'verified');
     const trainingModerators = moderators.filter(m => m.group === 'training');
 
-    // Create group headers and cards
-    if (verifiedModerators.length > 0) {
-        const verifiedHeader = document.createElement('div');
-        verifiedHeader.className = 'moderator-group-header';
-        verifiedHeader.innerHTML = '<h3>Verified Moderators</h3>';
-        moderatorGrid.appendChild(verifiedHeader);
-
-        verifiedModerators.forEach((moderator, index) => {
-            createModeratorCard(moderator, index);
-        });
-    }
-
-    if (trainingModerators.length > 0) {
-        const trainingHeader = document.createElement('div');
-        trainingHeader.className = 'moderator-group-header';
-        trainingHeader.innerHTML = '<h3>Training Moderators</h3>';
-        moderatorGrid.appendChild(trainingHeader);
-
-        trainingModerators.forEach((moderator, index) => {
-            createModeratorCard(moderator, index);
-        });
-    }
-
-    function createModeratorCard(moderator, index) {
+    function createModeratorCard(moderator) {
         const card = document.createElement('div');
-        card.className = 'moderator-card glass-card';
+        card.className = 'moderator-card';
         
         const expertiseTags = moderator.expertise
             .map(exp => `<span class="expertise-tag">${exp}</span>`)
             .join('');
         
-        // Add verification badge and text if moderator is verified
         const badges = moderator.isVerified ? `
             <div class="moderator-badge">
                 <div class="verified-icon" title="Verified Moderator">
@@ -244,180 +266,44 @@ function createModeratorCards() {
                 <a href="#waitlist" class="cta-button">Connect with Peer</a>
             </div>
         `;
-
-        // Add animation class after a delay
-        setTimeout(() => {
-            card.classList.add('animate-in');
-        }, index * 200);
         
-        moderatorGrid.appendChild(card);
-    }
-}
-
-// Intersection Observer for animations
-function setupIntersectionObserver() {
-    if (!('IntersectionObserver' in window)) {
-        // Fallback for browsers that don't support IntersectionObserver
-        document.querySelectorAll('.glass-card, .section-title, .mission-text, .testimonial-card').forEach(el => {
-            el.classList.add('animate-in');
-            if (el.classList.contains('testimonial-card')) {
-                el.style.opacity = '1';
-            }
-        });
-        return;
+        return card;
     }
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-                if (entry.target.classList.contains('testimonial-card')) {
-                    entry.target.style.opacity = '1';
-                }
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '50px'
+    // Create cards for each group
+    verifiedModerators.forEach(moderator => {
+        verifiedGrid.appendChild(createModeratorCard(moderator));
     });
 
-    document.querySelectorAll('.glass-card, .section-title, .mission-text, .testimonial-card').forEach(el => {
-        observer.observe(el);
+    trainingModerators.forEach(moderator => {
+        trainingGrid.appendChild(createModeratorCard(moderator));
     });
 }
 
-// Smooth scroll with offset
-function setupSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                const headerOffset = 80;
-                const elementPosition = target.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+// Tab switching functionality
+function setupTabs() {
+    document.querySelectorAll('.tabs-container').forEach(container => {
+        const tabs = container.querySelectorAll('.tab-btn');
+        const contents = container.querySelectorAll('.tab-content');
 
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.getAttribute('data-tab');
+
+                // Update active states
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Show/hide content
+                contents.forEach(content => {
+                    if (content.getAttribute('data-tab') === target) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
                 });
-            }
+            });
         });
-    });
-}
-
-// Navigation scroll effect
-function setupScrollEffect() {
-    const nav = document.querySelector('nav');
-    if (!nav) return;
-
-    let lastScroll = 0;
-    const scrollThreshold = 10;
-
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-        
-        // Add background blur effect when scrolling down
-        if (currentScroll > 50) {
-            nav.classList.add('nav-blur');
-        } else {
-            nav.classList.remove('nav-blur');
-        }
-        
-        // Hide/show navigation based on scroll direction
-        if (Math.abs(currentScroll - lastScroll) < scrollThreshold) return;
-        
-        if (currentScroll > lastScroll && currentScroll > 500) {
-            nav.style.transform = 'translateY(-100%)';
-        } else {
-            nav.style.transform = 'translateY(0)';
-        }
-        
-        lastScroll = currentScroll;
-    });
-}
-
-// Parallax effect for header
-function setupParallax() {
-    const header = document.querySelector('header');
-    if (!header) return;
-
-    window.addEventListener('scroll', () => {
-        const scroll = window.pageYOffset;
-        header.style.backgroundPositionY = `${scroll * 0.5}px`;
-    });
-}
-
-// Add scroll progress indicator
-function setupScrollProgress() {
-    const progressBar = document.createElement('div');
-    progressBar.className = 'scroll-progress';
-    document.body.appendChild(progressBar);
-
-    window.addEventListener('scroll', () => {
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (winScroll / height) * 100;
-        progressBar.style.width = scrolled + '%';
-    });
-}
-
-// Add this function for mobile menu handling
-function setupMobileMenu() {
-    const menuBtn = document.querySelector('.mobile-menu-btn');
-    const navLinks = document.querySelector('.nav-links');
-    const body = document.body;
-    
-    if (!menuBtn || !navLinks) return;
-    
-    function toggleMenu() {
-        const isOpen = navLinks.classList.contains('active');
-        
-        navLinks.classList.toggle('active');
-        menuBtn.classList.toggle('active');
-        
-        // Toggle body scroll
-        if (isOpen) {
-            body.style.removeProperty('overflow');
-        } else {
-            body.style.overflow = 'hidden';
-        }
-    }
-    
-    menuBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleMenu();
-    });
-
-    // Close menu when clicking a link
-    navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            toggleMenu();
-        });
-    });
-
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (navLinks.classList.contains('active') && 
-            !menuBtn.contains(e.target) && 
-            !navLinks.contains(e.target)) {
-            toggleMenu();
-        }
-    });
-
-    // Close menu on escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && navLinks.classList.contains('active')) {
-            toggleMenu();
-        }
-    });
-
-    // Prevent menu from staying open on window resize
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
-            toggleMenu();
-        }
     });
 }
 
@@ -425,19 +311,15 @@ function setupMobileMenu() {
 function initializeAll() {
     createTherapistCards();
     createModeratorCards();
-    setupIntersectionObserver();
-    setupSmoothScroll();
-    setupScrollEffect();
-    setupParallax();
-    setupScrollProgress();
+    setupTabs();
     setupMobileMenu();
+    setupScrollProgress();
 }
 
-// Initialize on DOMContentLoaded
+// Initialize when DOM is ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeAll);
 } else {
-    // DOM already loaded, run initialization
     initializeAll();
 }
 

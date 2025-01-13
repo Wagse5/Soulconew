@@ -75,21 +75,44 @@
     </section>
 
     <!-- Therapist Section -->
-    <section id="therapists" class="therapist-section">
+    <section id="therapists" class="therapist-section cards-section">
         <div class="container">
             <h2 class="section-title">Meet Our Expert Therapists</h2>
-            <div class="therapist-grid">
-                <!-- Therapist cards will be dynamically inserted here -->
+            <div class="tabs-container">
+                <div class="tabs-navigation">
+                    <button class="tab-btn active" data-tab="all">All</button>
+                    <button class="tab-btn" data-tab="mental-health">Mental Health</button>
+                    <button class="tab-btn" data-tab="relationships">Relationships</button>
+                    <button class="tab-btn" data-tab="wellness">Wellness</button>
+                </div>
+                <div class="tab-content active" data-tab="all">
+                    <div class="cards-grid">
+                        <!-- Therapist cards will be dynamically inserted here -->
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Peer Moderators Section -->
-    <section id="moderators" class="moderator-section">
+    <!-- Moderator Section -->
+    <section id="moderators" class="moderator-section cards-section">
         <div class="container">
             <h2 class="section-title">Our Peer Moderators</h2>
-            <div class="moderator-grid">
-                <!-- Moderator cards will be dynamically inserted here -->
+            <div class="tabs-container">
+                <div class="tabs-navigation">
+                    <button class="tab-btn active" data-tab="verified">Verified Moderators</button>
+                    <button class="tab-btn" data-tab="training">Training Moderators</button>
+                </div>
+                <div class="tab-content active" data-tab="verified">
+                    <div class="cards-grid">
+                        <!-- Verified moderator cards will be dynamically inserted here -->
+                    </div>
+                </div>
+                <div class="tab-content" data-tab="training">
+                    <div class="cards-grid">
+                        <!-- Training moderator cards will be dynamically inserted here -->
+                    </div>
+                </div>
             </div>
         </div>
     </section>
