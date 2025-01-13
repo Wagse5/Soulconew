@@ -6,37 +6,43 @@ const therapists = [
         name: "G Sharath Chandra",
         photo: "https://i.ibb.co/59vKF3G/aryan-2.jpg",
         specialization: "Mental Health & Cultural Integration",
-        expertise: ["Cultural Integration", "Men's Mental Health", "Career Stress Management"]
+        expertise: ["Cultural Integration", "Men's Mental Health", "Career Stress Management"],
+        categories: ["mental-health"]
     },
     {
         name: "Apurva Upadhyay",
         photo: "https://i.ibb.co/2qnQ1DJ/Screenshot-2025-01-12-182609.jpg",
         specialization: "Women's Mental Health & Empowerment",
-        expertise: ["Women's Wellness", "Self-Development", "Relationship Counseling"]
+        expertise: ["Women's Wellness", "Self-Development", "Relationship Counseling"],
+        categories: ["mental-health", "wellness", "relationships"]
     },
     {
         name: "Catherine Mary Joy",
         photo: "https://i.ibb.co/4N7mxX6/CMJ.jpg",
         specialization: "Family Dynamics & Relationships",
-        expertise: ["Family Counseling", "Relationship Therapy", "Cross-Cultural Adaptation"]
+        expertise: ["Family Counseling", "Relationship Therapy", "Cross-Cultural Adaptation"],
+        categories: ["relationships"]
     },
     {
         name: "Malavika R",
         photo: "https://i.ibb.co/KV5R5Hb/MR.jpg",
         specialization: "Anxiety & Women's Wellness",
-        expertise: ["Women's Mental Health", "Anxiety Management", "Work-Life Balance"]
+        expertise: ["Women's Mental Health", "Anxiety Management", "Work-Life Balance"],
+        categories: ["mental-health", "wellness"]
     },
     {
         name: "Shashank Shukla",
         photo: "https://i.ibb.co/CsQyqTp/shashank.jpg",
         specialization: "Emotion Focused Therapy",
-        expertise: ["Romantic Relationships", "Connection", "Heartbreak"]
+        expertise: ["Romantic Relationships", "Connection", "Heartbreak"],
+        categories: ["relationships"]
     },
     {
         name: "Dr. Sarah Matthews",
         photo: "",
         specialization: "Youth & Teen Counseling",
-        expertise: ["Teen Psychology", "Academic Stress", "Identity Development"]
+        expertise: ["Teen Psychology", "Academic Stress", "Identity Development"],
+        categories: ["mental-health"]
     }
 ];
 
@@ -128,8 +134,19 @@ const moderators = [
 
 // Function to create therapist cards
 function createTherapistCards() {
-    const therapistGrid = document.querySelector('#therapists .tab-content[data-tab="all"] .cards-grid');
-    if (!therapistGrid) return;
+    const therapistsSection = document.querySelector('#therapists');
+    if (!therapistsSection) {
+        console.error('Therapists section not found');
+        return;
+    }
+
+    // Get all grids
+    const grids = {
+        'all': therapistsSection.querySelector('[data-tab="all"] .cards-grid'),
+        'mental-health': therapistsSection.querySelector('[data-tab="mental-health"] .cards-grid'),
+        'relationships': therapistsSection.querySelector('[data-tab="relationships"] .cards-grid'),
+        'wellness': therapistsSection.querySelector('[data-tab="wellness"] .cards-grid')
+    };
 
     // SVG placeholder for therapist profile (fallback)
     const placeholderSVG = `data:image/svg+xml,${encodeURIComponent(`
@@ -140,31 +157,13 @@ function createTherapistCards() {
         </svg>
     `)}`;
 
-    // Create cards for each category
-    const categories = {
-        'all': therapistGrid,
-        'mental-health': document.createElement('div'),
-        'relationships': document.createElement('div'),
-        'wellness': document.createElement('div')
-    };
-
-    // Add class to all category divs
-    Object.values(categories).forEach(div => {
-        div.className = 'cards-grid';
+    // Clear existing cards
+    Object.values(grids).forEach(grid => {
+        if (grid) grid.innerHTML = '';
     });
 
-    // Create tab content containers
-    Object.entries(categories).forEach(([category, grid]) => {
-        if (category !== 'all') {
-            const tabContent = document.createElement('div');
-            tabContent.className = 'tab-content';
-            tabContent.setAttribute('data-tab', category);
-            tabContent.appendChild(grid);
-            therapistGrid.parentElement.parentElement.appendChild(tabContent);
-        }
-    });
-
-    therapists.forEach(therapist => {
+    // Function to create a card
+    function createCard(therapist) {
         const card = document.createElement('div');
         card.className = 'therapist-card';
         
@@ -186,31 +185,46 @@ function createTherapistCards() {
                 <a href="#waitlist" class="cta-button">Book a Session</a>
             </div>
         `;
-
-        // Add card to appropriate categories
-        categories['all'].appendChild(card.cloneNode(true));
         
-        // Add to other categories based on expertise and specialization
-        const cardText = (therapist.specialization + ' ' + therapist.expertise.join(' ')).toLowerCase();
-        if (cardText.includes('mental health')) {
-            categories['mental-health'].appendChild(card.cloneNode(true));
+        return card;
+    }
+
+    // Add cards to appropriate categories
+    therapists.forEach(therapist => {
+        // Add to 'All' category
+        if (grids['all']) {
+            grids['all'].appendChild(createCard(therapist));
         }
-        if (cardText.includes('relationship')) {
-            categories['relationships'].appendChild(card.cloneNode(true));
-        }
-        if (cardText.includes('wellness') || cardText.includes('balance')) {
-            categories['wellness'].appendChild(card.cloneNode(true));
-        }
+
+        // Add to specific categories
+        therapist.categories.forEach(category => {
+            if (grids[category]) {
+                grids[category].appendChild(createCard(therapist));
+            }
+        });
     });
 }
 
 // Function to create moderator cards
 function createModeratorCards() {
-    const verifiedGrid = document.querySelector('#moderators .tab-content[data-tab="verified"] .cards-grid');
-    const trainingGrid = document.querySelector('#moderators .tab-content[data-tab="training"] .cards-grid');
-    if (!verifiedGrid || !trainingGrid) return;
+    const moderatorsSection = document.querySelector('#moderators');
+    if (!moderatorsSection) {
+        console.error('Moderators section not found');
+        return;
+    }
 
-    // SVG placeholder for profile (fallback)
+    const verifiedGrid = moderatorsSection.querySelector('[data-tab="verified"] .cards-grid');
+    const trainingGrid = moderatorsSection.querySelector('[data-tab="training"] .cards-grid');
+
+    if (!verifiedGrid || !trainingGrid) {
+        console.error('Moderator grids not found');
+        return;
+    }
+
+    // Clear existing cards
+    verifiedGrid.innerHTML = '';
+    trainingGrid.innerHTML = '';
+
     const placeholderSVG = `data:image/svg+xml,${encodeURIComponent(`
         <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="180" height="180" fill="#E6F0FF"/>
@@ -219,16 +233,11 @@ function createModeratorCards() {
         </svg>
     `)}`;
 
-    // Verification tick SVG
     const verifiedTickSVG = `
         <svg viewBox="0 0 24 24" width="14" height="14">
             <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/>
         </svg>
     `;
-
-    // Group moderators
-    const verifiedModerators = moderators.filter(m => m.group === 'verified');
-    const trainingModerators = moderators.filter(m => m.group === 'training');
 
     function createModeratorCard(moderator) {
         const card = document.createElement('div');
@@ -270,13 +279,14 @@ function createModeratorCards() {
         return card;
     }
 
-    // Create cards for each group
-    verifiedModerators.forEach(moderator => {
-        verifiedGrid.appendChild(createModeratorCard(moderator));
-    });
-
-    trainingModerators.forEach(moderator => {
-        trainingGrid.appendChild(createModeratorCard(moderator));
+    // Create and append cards
+    moderators.forEach(moderator => {
+        const card = createModeratorCard(moderator);
+        if (moderator.group === 'verified') {
+            verifiedGrid.appendChild(card);
+        } else {
+            trainingGrid.appendChild(card);
+        }
     });
 }
 
@@ -289,7 +299,7 @@ function setupTabs() {
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 const target = tab.getAttribute('data-tab');
-
+                
                 // Update active states
                 tabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
@@ -307,16 +317,50 @@ function setupTabs() {
     });
 }
 
-// Initialize all functionality
-function initializeAll() {
-    createTherapistCards();
-    createModeratorCards();
-    setupTabs();
-    setupMobileMenu();
-    setupScrollProgress();
+// Mobile Menu Setup
+function setupMobileMenu() {
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const nav = document.querySelector('nav');
+    const menuIcon = document.querySelector('.menu-icon');
+
+    if (mobileMenuBtn && nav) {
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            mobileMenuBtn.classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!nav.contains(e.target) && !mobileMenuBtn.contains(e.target) && nav.classList.contains('active')) {
+                nav.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+            }
+        });
+
+        // Close menu when clicking on a link
+        nav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+            });
+        });
+    }
 }
 
-// Initialize when DOM is ready
+// Initialize all functionality
+function initializeAll() {
+    // Create cards first
+    createTherapistCards();
+    createModeratorCards();
+    
+    // Then set up tab functionality
+    setupTabs();
+    
+    // Set up mobile menu
+    setupMobileMenu();
+}
+
+// Start initialization when DOM is ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeAll);
 } else {
