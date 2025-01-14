@@ -83,64 +83,84 @@ function initializeCarousel(containerSelector) {
         carousel.style.transform = `translateX(${position}px)`;
     }
     
-    function getMaxScroll() {
-        const containerWidth = container.querySelector('.carousel-wrapper').offsetWidth;
+    function getMaxScroll(carousel) {
+        const carouselWidth = carousel.offsetWidth;
+        const cardWidth = carousel.children[0].offsetWidth;
+        const gap = 24; // Gap between cards
         const totalCards = carousel.children.length;
-        // Calculate the total width of all cards including gaps
-        const totalWidth = totalCards * moveDistance - cardGap; // Subtract one gap as it's not needed after the last card
-        // For mobile, ensure we show complete cards
-        const visibleCards = Math.floor(containerWidth / cardWidth);
-        const visibleWidth = visibleCards * cardWidth + (visibleCards - 1) * cardGap;
-        // The maximum scroll should account for the exact card width and gaps
-        return -(totalWidth - visibleWidth);
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            // On mobile, show exactly one card at a time
+            return (totalCards - 1) * (cardWidth + gap);
+        } else {
+            // On desktop, calculate based on visible width
+            const visibleCards = Math.floor(carouselWidth / (cardWidth + gap));
+            return Math.max(0, (totalCards - visibleCards) * (cardWidth + gap));
+        }
     }
     
-    function moveNext() {
-        const maxScroll = getMaxScroll();
-        position -= moveDistance;
+    function moveNext(carousel) {
+        const maxScroll = getMaxScroll(carousel);
+        const cardWidth = carousel.children[0].offsetWidth;
+        const gap = 24;
+        const isMobile = window.innerWidth <= 768;
         
-        // If we've scrolled past the last card
-        if (position < maxScroll) {
-            // Immediately jump to the start without animation
-            carousel.style.transition = 'none';
-            position = 0;
-            carousel.style.transform = `translateX(${position}px)`;
-            // Force a reflow
-            carousel.offsetHeight;
-            // Restore the transition for the next movement
-            carousel.style.transition = 'transform 0.5s ease-in-out';
+        let newScrollLeft = carousel.scrollLeft + cardWidth + gap;
+        
+        if (isMobile) {
+            // On mobile, if we're at the last card, stay there
+            if (newScrollLeft > maxScroll) {
+                newScrollLeft = maxScroll;
+            }
+        } else {
+            // On desktop, loop back to start
+            if (newScrollLeft > maxScroll) {
+                newScrollLeft = 0;
+            }
         }
         
-        updatePosition();
+        carousel.scrollTo({
+            left: newScrollLeft,
+            behavior: 'smooth'
+        });
     }
     
-    function movePrev() {
-        position += moveDistance;
+    function movePrev(carousel) {
+        const cardWidth = carousel.children[0].offsetWidth;
+        const gap = 24;
+        const maxScroll = getMaxScroll(carousel);
+        const isMobile = window.innerWidth <= 768;
         
-        // If we're at the start and trying to go back
-        if (position > 0) {
-            // Immediately jump to the end without animation
-            carousel.style.transition = 'none';
-            position = getMaxScroll();
-            carousel.style.transform = `translateX(${position}px)`;
-            // Force a reflow
-            carousel.offsetHeight;
-            // Restore the transition for the next movement
-            carousel.style.transition = 'transform 0.5s ease-in-out';
+        let newScrollLeft = carousel.scrollLeft - (cardWidth + gap);
+        
+        if (isMobile) {
+            // On mobile, don't go before the first card
+            if (newScrollLeft < 0) {
+                newScrollLeft = 0;
+            }
+        } else {
+            // On desktop, loop to end
+            if (newScrollLeft < 0) {
+                newScrollLeft = maxScroll;
+            }
         }
         
-        updatePosition();
+        carousel.scrollTo({
+            left: newScrollLeft,
+            behavior: 'smooth'
+        });
     }
     
     // Event Listeners
     prevBtn.addEventListener('click', () => {
-        movePrev();
+        movePrev(carousel);
         stopAutoScroll();
         setTimeout(startAutoScroll, scrollSpeed);
     });
     
     nextBtn.addEventListener('click', () => {
-        moveNext();
+        moveNext(carousel);
         stopAutoScroll();
         setTimeout(startAutoScroll, scrollSpeed);
     });
@@ -149,7 +169,7 @@ function initializeCarousel(containerSelector) {
     function startAutoScroll() {
         stopAutoScroll();
         autoScrollInterval = setInterval(() => {
-            moveNext();
+            moveNext(carousel);
         }, scrollSpeed);
     }
     
@@ -163,58 +183,32 @@ function initializeCarousel(containerSelector) {
     // Touch events for mobile
     let touchStartX = 0;
     let touchEndX = 0;
-    let isSwiping = false;
     
     carousel.addEventListener('touchstart', (e) => {
         touchStartX = e.changedTouches[0].screenX;
-        isSwiping = true;
         stopAutoScroll();
-        carousel.style.transition = 'none';
     }, { passive: true });
 
-    carousel.addEventListener('touchmove', (e) => {
-        if (!isSwiping) return;
-        
-        const currentX = e.changedTouches[0].screenX;
-        const diff = touchStartX - currentX;
-        const newPosition = position - diff;
-        const maxScroll = getMaxScroll();
-        
-        // Limit scrolling within bounds with resistance at edges
-        if (newPosition > 0) {
-            position = newPosition * 0.3; // Add resistance at start
-        } else if (newPosition < maxScroll) {
-            position = maxScroll + (newPosition - maxScroll) * 0.3; // Add resistance at end
-        } else {
-            position = newPosition;
-        }
-        
-        updatePosition(false);
-    }, { passive: true });
-    
     carousel.addEventListener('touchend', (e) => {
-        isSwiping = false;
         touchEndX = e.changedTouches[0].screenX;
         const difference = touchStartX - touchEndX;
         
-        carousel.style.transition = 'transform 0.5s ease-in-out';
-        
-        if (Math.abs(difference) > 50) { // Minimum swipe distance
+        // Determine direction and move one card, regardless of swipe distance
+        if (Math.abs(difference) > 20) { // Small threshold just to prevent accidental swipes
             if (difference > 0) {
-                moveNext();
+                moveNext(carousel);
             } else {
-                movePrev();
+                movePrev(carousel);
             }
-        } else {
-            // Snap back to nearest card
-            const cardPosition = Math.round(position / moveDistance) * moveDistance;
-            const maxScroll = getMaxScroll();
-            position = Math.max(maxScroll, Math.min(0, cardPosition));
-            updatePosition();
         }
         
         setTimeout(startAutoScroll, scrollSpeed);
     }, { passive: true });
+
+    // Remove touchmove handler as we don't need it anymore
+    carousel.addEventListener('touchmove', (e) => {
+        e.preventDefault(); // Prevent default scrolling
+    }, { passive: false });
     
     // Stop auto scroll on hover or touch
     container.addEventListener('mouseenter', stopAutoScroll);
@@ -227,7 +221,7 @@ function initializeCarousel(containerSelector) {
         stopAutoScroll();
         
         resizeTimeout = setTimeout(() => {
-            const maxScroll = getMaxScroll();
+            const maxScroll = getMaxScroll(carousel);
             // If we're beyond the new max scroll, reset to the start
             if (position < maxScroll) {
                 position = 0;
