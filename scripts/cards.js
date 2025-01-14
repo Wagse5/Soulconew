@@ -86,31 +86,47 @@ function initializeCarousel(containerSelector) {
     function getMaxScroll() {
         const containerWidth = container.querySelector('.carousel-wrapper').offsetWidth;
         const totalCards = carousel.children.length;
-        const visibleCards = Math.ceil(containerWidth / moveDistance);
-        const maxScroll = -(totalCards - visibleCards) * moveDistance;
-        
-        return Math.min(0, maxScroll);
+        // Calculate the total width of all cards including gaps
+        const totalWidth = totalCards * moveDistance - cardGap; // Subtract one gap as it's not needed after the last card
+        // For mobile, ensure we show complete cards
+        const visibleCards = Math.floor(containerWidth / cardWidth);
+        const visibleWidth = visibleCards * cardWidth + (visibleCards - 1) * cardGap;
+        // The maximum scroll should account for the exact card width and gaps
+        return -(totalWidth - visibleWidth);
     }
     
     function moveNext() {
         const maxScroll = getMaxScroll();
         position -= moveDistance;
         
-        // If we've scrolled past the last card, reset to first
+        // If we've scrolled past the last card
         if (position < maxScroll) {
+            // Immediately jump to the start without animation
+            carousel.style.transition = 'none';
             position = 0;
+            carousel.style.transform = `translateX(${position}px)`;
+            // Force a reflow
+            carousel.offsetHeight;
+            // Restore the transition for the next movement
+            carousel.style.transition = 'transform 0.5s ease-in-out';
         }
         
         updatePosition();
     }
     
     function movePrev() {
-        const maxScroll = getMaxScroll();
         position += moveDistance;
         
-        // If we're at the start and trying to go back, loop to last card
+        // If we're at the start and trying to go back
         if (position > 0) {
-            position = maxScroll;
+            // Immediately jump to the end without animation
+            carousel.style.transition = 'none';
+            position = getMaxScroll();
+            carousel.style.transform = `translateX(${position}px)`;
+            // Force a reflow
+            carousel.offsetHeight;
+            // Restore the transition for the next movement
+            carousel.style.transition = 'transform 0.5s ease-in-out';
         }
         
         updatePosition();
@@ -133,10 +149,7 @@ function initializeCarousel(containerSelector) {
     function startAutoScroll() {
         stopAutoScroll();
         autoScrollInterval = setInterval(() => {
-            const maxScroll = getMaxScroll();
-            if (maxScroll < 0) {
-                moveNext();
-            }
+            moveNext();
         }, scrollSpeed);
     }
     
@@ -215,7 +228,10 @@ function initializeCarousel(containerSelector) {
         
         resizeTimeout = setTimeout(() => {
             const maxScroll = getMaxScroll();
-            position = Math.max(maxScroll, Math.min(0, position));
+            // If we're beyond the new max scroll, reset to the start
+            if (position < maxScroll) {
+                position = 0;
+            }
             updatePosition(false);
             startAutoScroll();
         }, 100);
