@@ -142,11 +142,20 @@ header {
     margin: 0 auto;
 }
 
-.therapist-card {
+/* Base Card Styles */
+.therapist-card,
+.moderator-card {
+    flex: 0 0 360px;
+    width: 360px;
+    max-width: 360px;
+    min-height: 620px;
+    margin: 0;
+    opacity: 1;
+    transform: translateY(0);
+    padding: 2rem;
     background: var(--white);
     border-radius: 24px;
     position: relative;
-    min-height: 580px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -156,36 +165,35 @@ header {
         0 4px 20px rgba(0, 77, 122, 0.08),
         0 8px 32px rgba(0, 77, 122, 0.05);
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    padding: 2rem;
 }
 
-.therapist-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 
-        0 8px 30px rgba(0, 77, 122, 0.12),
-        0 16px 40px rgba(0, 77, 122, 0.08);
-}
-
-.therapist-content {
+/* Card Content Styles */
+.therapist-content,
+.moderator-content {
     display: grid;
-    grid-template-rows: auto minmax(40px, auto) minmax(60px, auto) 1fr auto;
+    grid-template-rows: auto 60px 80px 1fr auto;
     align-items: start;
     width: 100%;
     height: 100%;
     gap: 1.5rem;
+    min-height: 580px;
 }
 
-.therapist-image-container {
+/* Image Container */
+.therapist-image-container,
+.moderator-image-container {
     width: 200px;
     height: 200px;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto;
+    margin: 0 auto 1rem;
 }
 
-.therapist-image {
+/* Image Styles */
+.therapist-image,
+.moderator-image {
     width: 100%;
     height: 100%;
     border-radius: 50%;
@@ -197,74 +205,109 @@ header {
     transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.therapist-card:hover .therapist-image {
-    transform: scale(1.05);
-}
-
-.therapist-card h3 {
-    color: var(--primary-color);
-    font-size: 1.75rem;
+/* Title Styles */
+.therapist-card h3,
+.moderator-card h3 {
+    min-height: 60px;
+    font-size: 1.5rem;
+    line-height: 1.3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    width: 100%;
+    padding: 0.5rem;
+    margin: 0;
+    color: var(--primary-color);
     font-weight: 700;
     letter-spacing: -0.02em;
-    padding: 0 1rem;
-    margin: 0;
-    min-height: 40px;
+}
+
+/* Specialization Styles */
+.therapist-card .specialization,
+.moderator-card .specialization {
+    min-height: 80px;
+    font-size: 1.1rem;
+    line-height: 1.4;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.therapist-card .specialization {
+    text-align: center;
+    padding: 0.5rem;
+    margin: 0;
     color: var(--secondary-color);
     font-weight: 600;
-    text-align: center;
-    width: 100%;
-    font-size: 1.1rem;
     opacity: 0.9;
-    padding: 0 1rem;
-    margin: 0;
-    min-height: 60px;
+}
+
+/* Expertise Tags Container */
+.expertise-tags,
+.moderator-card .expertise-tags,
+.therapist-card .expertise-tags {
+    min-height: 120px;
     display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
     align-items: center;
-    justify-content: center;
-}
-
-.expertise-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    justify-content: center;
-    align-items: flex-start;
-    width: 100%;
-    padding: 0 1rem;
+    padding: 0.5rem;
     margin: 0;
+    width: 100%;
 }
 
+/* Individual Tag */
 .expertise-tag {
-    background: rgba(0, 102, 204, 0.08);
+    width: 100%;
+    max-width: 220px;
+    background: rgba(0, 102, 204, 0.1);
     color: var(--secondary-color);
-    padding: 0.5rem 1.2rem;
+    padding: 0.5rem 1rem;
     border-radius: 20px;
     font-size: 0.9rem;
     font-weight: 500;
-    transition: all 0.3s ease;
     text-align: center;
     border: 1px solid rgba(0, 102, 204, 0.15);
     white-space: nowrap;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     height: 36px;
+    transition: all 0.3s ease;
 }
 
 .expertise-tag:hover {
-    background: rgba(0, 102, 204, 0.12);
+    background: rgba(0, 102, 204, 0.15);
     transform: translateY(-2px);
 }
 
-.therapist-card .cta-button {
+/* Mobile Adjustments for Tags */
+@media (max-width: 768px) {
+    .expertise-tags,
+    .moderator-card .expertise-tags,
+    .therapist-card .expertise-tags {
+        min-height: 100px;
+        gap: 0.4rem;
+    }
+
+    .expertise-tag {
+        max-width: 200px;
+        height: 32px;
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .expertise-tag {
+        max-width: 180px;
+        height: 30px;
+        font-size: 0.8rem;
+        padding: 0.3rem 0.7rem;
+    }
+}
+
+/* CTA Button */
+.therapist-card .cta-button,
+.moderator-card .cta-button {
     width: 100%;
     height: 48px;
     display: flex;
@@ -282,61 +325,70 @@ header {
     margin-top: auto;
 }
 
-.therapist-card .cta-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 77, 122, 0.25);
+/* Hover Effects */
+.therapist-card:hover,
+.moderator-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 
+        0 8px 30px rgba(0, 77, 122, 0.12),
+        0 16px 40px rgba(0, 77, 122, 0.08);
 }
 
-/* Custom scrollbar styles */
-.therapist-card .description::-webkit-scrollbar {
-    width: 4px;
+.therapist-card:hover .therapist-image,
+.moderator-card:hover .moderator-image {
+    transform: scale(1.05);
 }
 
-.therapist-card .description::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 2px;
-}
-
-.therapist-card .description::-webkit-scrollbar-thumb {
-    background: var(--secondary-color);
-    border-radius: 2px;
-}
-
-/* Responsive adjustments */
+/* Mobile Responsive Adjustments */
 @media (max-width: 768px) {
-    .therapist-content {
-        gap: 1rem;
+    .therapist-card,
+    .moderator-card {
+        flex: 0 0 300px;
+        width: 300px;
+        max-width: 300px;
+        min-height: 580px;
+        padding: 1.5rem;
     }
 
-    .therapist-image-container {
+    .therapist-image-container,
+    .moderator-image-container {
         width: 180px;
         height: 180px;
         margin-bottom: 0.75rem;
     }
 
-    .therapist-card h3 {
-        font-size: 1.5rem;
-        min-height: 35px;
-    }
-
-    .therapist-card .specialization {
-        font-size: 1rem;
+    .therapist-card h3,
+    .moderator-card h3 {
+        font-size: 1.4rem;
         min-height: 50px;
     }
 
+    .therapist-card .specialization,
+    .moderator-card .specialization {
+        font-size: 1rem;
+        min-height: 60px;
+    }
+
     .expertise-tags {
+        min-height: 100px;
         gap: 0.5rem;
     }
 
-    .expertise-tag {
-        font-size: 0.85rem;
-        padding: 0.4rem 1rem;
-        height: 32px;
-    }
-
-    .therapist-card .cta-button {
+    .therapist-card .cta-button,
+    .moderator-card .cta-button {
         height: 44px;
         font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .therapist-card,
+    .moderator-card {
+        flex: 0 0 260px;
+        width: 260px;
+        max-width: 260px;
+        min-height: 540px;
+        padding: 1rem;
     }
 }
 
@@ -361,29 +413,6 @@ header {
 
 .therapist-card:hover .therapist-image {
     transform: scale(1.05);
-}
-
-.expertise-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    justify-content: center;
-    margin: 1rem 0;
-}
-
-.expertise-tag {
-    background: rgba(0, 102, 204, 0.1);
-    color: var(--secondary-color);
-    padding: 0.3rem 0.8rem;
-    border-radius: 15px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.expertise-tag:hover {
-    background: rgba(0, 102, 204, 0.2);
-    transform: translateY(-2px);
 }
 
 /* Scroll Progress Indicator */
@@ -939,19 +968,13 @@ section:nth-child(even) {
 }
 
 .moderator-card {
-    background: var(--white);
-    border-radius: 24px;
-    position: relative;
-    min-height: 580px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    border: 1px solid rgba(0, 77, 122, 0.1);
-    box-shadow: 
-        0 4px 20px rgba(0, 77, 122, 0.08),
-        0 8px 32px rgba(0, 77, 122, 0.05);
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    flex: 0 0 360px;
+    width: 360px;
+    max-width: 360px;
+    min-height: 620px;
+    margin: 0;
+    opacity: 1;
+    transform: translateY(0);
     padding: 2rem;
 }
 
@@ -964,21 +987,18 @@ section:nth-child(even) {
 
 .moderator-content {
     display: grid;
-    grid-template-rows: auto minmax(40px, auto) minmax(60px, auto) 1fr auto;
+    grid-template-rows: auto 60px 80px 1fr auto;
     align-items: start;
     width: 100%;
     height: 100%;
     gap: 1.5rem;
+    min-height: 580px;
 }
 
 .moderator-image-container {
     width: 200px;
     height: 200px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
+    margin: 0 auto 1rem;
 }
 
 .moderator-image {
@@ -998,43 +1018,26 @@ section:nth-child(even) {
 }
 
 .moderator-card h3 {
-    color: var(--primary-color);
-    font-size: 1.75rem;
-    text-align: center;
-    width: 100%;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    padding: 0 1rem;
-    margin: 0;
-    min-height: 40px;
+    min-height: 60px;
+    font-size: 1.5rem;
+    line-height: 1.3;
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
+    padding: 0.5rem;
+    margin: 0;
 }
 
 .moderator-card .specialization {
-    color: var(--secondary-color);
-    font-weight: 600;
-    text-align: center;
-    width: 100%;
+    min-height: 80px;
     font-size: 1.1rem;
-    opacity: 0.9;
-    padding: 0 1rem;
-    margin: 0;
-    min-height: 60px;
+    line-height: 1.4;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.moderator-card .expertise-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    justify-content: center;
-    align-items: flex-start;
-    width: 100%;
-    padding: 0 1rem;
+    text-align: center;
+    padding: 0.5rem;
     margin: 0;
 }
 
@@ -1076,10 +1079,6 @@ section:nth-child(even) {
     .moderator-card .specialization {
         font-size: 1rem;
         min-height: 50px;
-    }
-
-    .moderator-card .expertise-tags {
-        gap: 0.5rem;
     }
 
     .moderator-card .cta-button {
@@ -1190,5 +1189,106 @@ section:nth-child(even) {
     .moderator-group-header h3 {
         font-size: 1.25rem;
         padding-left: 0.75rem;
+    }
+}   
+
+/* Carousel Styles */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 50px;
+}
+
+.carousel-wrapper {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    padding: 1rem 0;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    gap: 24px;
+    width: fit-content;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    border: none;
+    color: white;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-button:hover {
+    background: var(--secondary-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-button.prev {
+    left: 0;
+}
+
+.carousel-button.next {
+    right: 0;
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+    .therapist-card,
+    .moderator-card {
+        flex: 0 0 300px;
+        width: 300px;
+        max-width: 300px;
+        min-height: 580px;
+        padding: 1.5rem;
+    }
+
+    .carousel-container {
+        padding: 0 40px;
+    }
+
+    .carousel-button {
+        width: 36px;
+        height: 36px;
+    }
+
+    .carousel {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .therapist-card,
+    .moderator-card {
+        flex: 0 0 260px;
+        width: 260px;
+        max-width: 260px;
+        min-height: 540px;
+        padding: 1rem;
+    }
+
+    .carousel-container {
+        padding: 0 32px;
+    }
+
+    .carousel-button {
+        width: 32px;
+        height: 32px;
+    }
+
+    .carousel {
+        gap: 16px;
     }
 }   

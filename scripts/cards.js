@@ -35,6 +35,9 @@ export function createTherapistCards(therapists) {
         
         therapistGrid.appendChild(card);
     });
+
+    // Initialize carousel after cards are created
+    initializeCarousel('#therapists .carousel-container');
 }
 
 // Function to create moderator cards
@@ -88,4 +91,131 @@ export function createModeratorCards(moderators) {
         
         moderatorGrid.appendChild(card);
     });
+
+    // Initialize carousel after cards are created
+    initializeCarousel('#moderators .carousel-container');
+}
+
+// Carousel functionality
+function initializeCarousel(containerSelector) {
+    const container = document.querySelector(containerSelector);
+    if (!container) return;
+
+    const carousel = container.querySelector('.carousel');
+    const prevBtn = container.querySelector('.prev');
+    const nextBtn = container.querySelector('.next');
+    
+    let position = 0;
+    let autoScrollInterval;
+    const scrollSpeed = 3000; // Auto scroll every 3 seconds
+    const cardWidth = 360; // Fixed card width
+    const cardGap = 24; // Gap between cards
+    const moveDistance = cardWidth + cardGap;
+    
+    function updatePosition(animate = true) {
+        if (animate) {
+            carousel.style.transition = 'transform 0.5s ease-in-out';
+        } else {
+            carousel.style.transition = 'none';
+        }
+        carousel.style.transform = `translateX(${position}px)`;
+    }
+    
+    function getMaxScroll() {
+        const carouselWidth = carousel.scrollWidth;
+        const containerWidth = container.querySelector('.carousel-wrapper').offsetWidth;
+        return -(carouselWidth - containerWidth);
+    }
+    
+    function moveNext() {
+        const maxScroll = getMaxScroll();
+        position -= moveDistance;
+        
+        // Reset if we've scrolled too far
+        if (position < maxScroll) {
+            position = 0;
+        }
+        
+        updatePosition();
+    }
+    
+    function movePrev() {
+        position += moveDistance;
+        
+        // Don't allow scrolling past the start
+        if (position > 0) {
+            position = 0;
+        }
+        
+        updatePosition();
+    }
+    
+    // Auto scroll functionality
+    function startAutoScroll() {
+        stopAutoScroll(); // Clear any existing interval
+        autoScrollInterval = setInterval(moveNext, scrollSpeed);
+    }
+    
+    function stopAutoScroll() {
+        if (autoScrollInterval) {
+            clearInterval(autoScrollInterval);
+            autoScrollInterval = null;
+        }
+    }
+    
+    // Event Listeners
+    prevBtn.addEventListener('click', () => {
+        movePrev();
+        stopAutoScroll();
+        setTimeout(startAutoScroll, scrollSpeed);
+    });
+    
+    nextBtn.addEventListener('click', () => {
+        moveNext();
+        stopAutoScroll();
+        setTimeout(startAutoScroll, scrollSpeed);
+    });
+    
+    // Stop auto scroll on hover or touch
+    container.addEventListener('mouseenter', stopAutoScroll);
+    container.addEventListener('mouseleave', startAutoScroll);
+    
+    // Touch events for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    carousel.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        stopAutoScroll();
+    }, { passive: true });
+    
+    carousel.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const difference = touchStartX - touchEndX;
+        
+        if (Math.abs(difference) > 50) { // Minimum swipe distance
+            if (difference > 0) {
+                moveNext();
+            } else {
+                movePrev();
+            }
+        }
+        
+        setTimeout(startAutoScroll, scrollSpeed);
+    }, { passive: true });
+    
+    // Handle window resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            // Reset position on resize
+            position = 0;
+            updatePosition(false);
+        }, 100);
+    });
+    
+    // Initialize
+    updatePosition(false);
+    startAutoScroll();
 } 
