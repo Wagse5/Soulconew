@@ -1372,3 +1372,169 @@ section:nth-child(even) {
         font-size: 1rem;
     }
 }   
+
+/* Mission Section Styles */
+.about-section {
+    background: var(--section-bg);
+    padding: 6rem 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.mission-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 10px 30px rgba(0, 77, 122, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.mission-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 77, 122, 0.15);
+}
+
+.mission-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 2rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 5px 15px rgba(0, 77, 122, 0.2);
+}
+
+.mission-text {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: var(--text-color);
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.mission-features {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(0, 77, 122, 0.05);
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.feature:hover {
+    transform: translateY(-2px);
+    background: rgba(0, 77, 122, 0.1);
+}
+
+.feature-icon {
+    font-size: 1.5rem;
+}
+
+.feature span:not(.feature-icon) {
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+.starting-from {
+    margin-top: 2.5rem;
+    text-align: center;
+    position: relative;
+}
+
+.price-tag {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 15px;
+    color: white;
+    position: relative;
+    animation: float 3s ease-in-out infinite;
+}
+
+.price-tag::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 17px;
+    z-index: -1;
+    opacity: 0.3;
+    filter: blur(8px);
+}
+
+.price-label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.25rem;
+}
+
+.price-amount {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin: 0.25rem 0;
+}
+
+.price-period {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@media (max-width: 768px) {
+    .mission-card {
+        padding: 2rem;
+        margin: 0 1rem;
+    }
+
+    .mission-text {
+        font-size: 1.1rem;
+    }
+
+    .mission-features {
+        gap: 1rem;
+    }
+
+    .feature {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .price-tag {
+        padding: 0.75rem 1.5rem;
+    }
+
+    .price-amount {
+        font-size: 2rem;
+    }
+}   
