@@ -379,7 +379,7 @@ header::before {
     .carousel-wrapper {
         width: 100%;
         overflow: hidden;
-        padding: 1rem 0;
+        padding: 0;
     }
 
     .carousel {
@@ -387,9 +387,18 @@ header::before {
         gap: 0;
         width: 100%;
         scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
     }
 
-    .therapist-card {
+    /* Hide scrollbar */
+    .carousel::-webkit-scrollbar {
+        display: none;
+    }
+
+    .therapist-card,
+    .moderator-card {
         flex: 0 0 100%;
         width: 100%;
         max-width: 100%;
@@ -400,23 +409,7 @@ header::before {
     }
 
     .carousel-button {
-        width: 36px;
-        height: 36px;
-        background: var(--primary-color);
-        z-index: 100;
-    }
-
-    .carousel-button.prev {
-        left: 10px;
-    }
-
-    .carousel-button.next {
-        right: 10px;
-    }
-
-    .therapist-image-container {
-        width: 160px;
-        height: 160px;
+        display: none !important;
     }
 }
 
