@@ -128,18 +128,137 @@ header {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Therapist Section */
-.therapist-section {
+/* Unified Section Styles */
+.therapist-section,
+.moderator-section {
     background: var(--section-bg);
-    padding: 6rem 2rem;
+    padding: 6rem 0;
+    overflow: hidden;
 }
 
-.therapist-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2.5rem;
+.moderator-section {
+    background: var(--background-color);
+}
+
+/* Unified Grid Styles */
+.therapist-grid,
+.moderator-grid {
+    display: flex;
+    gap: 24px;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+/* Unified Carousel Styles */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: calc(1200px + 4rem); /* Account for padding */
+    margin: 0 auto;
+    padding: 0 2rem; /* Add padding for button space */
+}
+
+.carousel-wrapper {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    padding: 1rem 0;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    gap: 24px;
+    width: fit-content;
+    padding: 0 1rem; /* Add padding to show full last card */
+}
+
+/* Carousel Navigation */
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-button svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+.carousel-button:hover {
+    background: var(--secondary-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-button.prev {
+    left: 0;
+}
+
+.carousel-button.next {
+    right: 0;
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+    .therapist-section,
+    .moderator-section {
+        padding: 4rem 0;
+    }
+
+    .carousel-container {
+        padding: 0 1.5rem;
+    }
+
+    .carousel {
+        gap: 20px;
+        padding: 0 0.5rem;
+    }
+
+    .carousel-button {
+        width: 36px;
+        height: 36px;
+        background: rgba(0, 77, 122, 0.9);
+    }
+
+    .carousel-button svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-container {
+        padding: 0 1rem;
+    }
+
+    .carousel {
+        gap: 16px;
+        padding: 0 0.25rem;
+    }
+
+    .carousel-button {
+        width: 32px;
+        height: 32px;
+    }
+
+    .carousel-button svg {
+        width: 18px;
+        height: 18px;
+    }
 }
 
 /* Base Card Styles */
@@ -1189,106 +1308,5 @@ section:nth-child(even) {
     .moderator-group-header h3 {
         font-size: 1.25rem;
         padding-left: 0.75rem;
-    }
-}   
-
-/* Carousel Styles */
-.carousel-container {
-    position: relative;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 50px;
-}
-
-.carousel-wrapper {
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-    padding: 1rem 0;
-}
-
-.carousel {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-    gap: 24px;
-    width: fit-content;
-}
-
-.carousel-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 44px;
-    height: 44px;
-    background: var(--primary-color);
-    border-radius: 50%;
-    border: none;
-    color: white;
-    cursor: pointer;
-    z-index: 10;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.carousel-button:hover {
-    background: var(--secondary-color);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.carousel-button.prev {
-    left: 0;
-}
-
-.carousel-button.next {
-    right: 0;
-}
-
-/* Mobile Responsive Adjustments */
-@media (max-width: 768px) {
-    .therapist-card,
-    .moderator-card {
-        flex: 0 0 300px;
-        width: 300px;
-        max-width: 300px;
-        min-height: 580px;
-        padding: 1.5rem;
-    }
-
-    .carousel-container {
-        padding: 0 40px;
-    }
-
-    .carousel-button {
-        width: 36px;
-        height: 36px;
-    }
-
-    .carousel {
-        gap: 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    .therapist-card,
-    .moderator-card {
-        flex: 0 0 260px;
-        width: 260px;
-        max-width: 260px;
-        min-height: 540px;
-        padding: 1rem;
-    }
-
-    .carousel-container {
-        padding: 0 32px;
-    }
-
-    .carousel-button {
-        width: 32px;
-        height: 32px;
-    }
-
-    .carousel {
-        gap: 16px;
     }
 }   
