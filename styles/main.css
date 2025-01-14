@@ -371,20 +371,22 @@ header::before {
     margin: 0;
 }
 
-.card-base .specialization {
+.card-base .specialization,
+.carousel-card .specialization,
+.moderator-card .specialization {
     font-size: 1rem;
     color: var(--text-color);
     text-align: center;
     margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    line-clamp: 2;
     -webkit-box-orient: vertical;
-    box-orient: vertical;
     overflow: hidden;
     line-height: 1.4;
     height: 2.8em;
+    min-height: 2.8em;
     max-height: 2.8em;
+    padding: 0;
 }
 
 /* Expertise Tags */
@@ -1311,10 +1313,8 @@ section:nth-child(even) {
 }
 
 .moderator-content {
-    display: grid;
-    grid-template-rows: auto 60px 80px 1fr auto;
-    align-items: start;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
     height: 100%;
     gap: 1.5rem;
     min-height: 580px;
@@ -1366,49 +1366,47 @@ section:nth-child(even) {
     margin: 0;
 }
 
-.moderator-card .cta-button {
-    width: 100%;
-    height: 48px;
+.moderator-card .tags {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    color: white;
-    border-radius: 30px;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    border: none;
-    box-shadow: 0 4px 15px rgba(0, 77, 122, 0.15);
-    text-decoration: none;
+    flex-direction: column;
+    gap: 0.5rem;
     margin-top: auto;
+    min-height: 120px;
+    justify-content: flex-end;
+    padding: 1rem 0;
+}
+
+.moderator-card .tags span {
+    font-size: 0.875rem;
+    color: var(--primary-color);
+    background: rgba(0, 77, 122, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    width: 100%;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Responsive adjustments for moderators */
 @media (max-width: 768px) {
     .moderator-content {
+        min-height: 580px;
         gap: 1rem;
     }
 
-    .moderator-image-container {
-        width: 180px;
-        height: 180px;
-        margin-bottom: 0.75rem;
+    .moderator-card .tags {
+        min-height: 100px;
+        padding: 0.75rem 0;
     }
 
-    .moderator-card h3 {
-        font-size: 1.5rem;
-        min-height: 35px;
-    }
-
-    .moderator-card .specialization {
-        font-size: 1rem;
-        min-height: 50px;
-    }
-
-    .moderator-card .cta-button {
-        height: 44px;
-        font-size: 1rem;
+    .moderator-card .tags span {
+        font-size: 0.8125rem;
+        height: 32px;
+        padding: 0.4rem 0.875rem;
     }
 }
 
