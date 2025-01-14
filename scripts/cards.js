@@ -6,35 +6,67 @@ function isMobile() {
     return window.innerWidth <= MOBILE_BREAKPOINT;
 }
 
-function createGridStructure() {
-    const structure = document.createElement('div');
-    structure.className = 'cards-grid';
-    return structure;
-}
-
-function createCardElement(person, buttonText) {
+function createCarouselCard(person, buttonText) {
     const card = document.createElement('div');
-    card.className = 'card-base';
+    card.className = 'carousel-card';
     
     const expertiseTags = person.expertise
-        .map(exp => `<span class="expertise-tag">${exp}</span>`)
+        .map(exp => `<span>${exp}</span>`)
         .join('');
     
     card.innerHTML = `
-        <div class="card-content">
-            <div class="profile-image-container">
-                <img src="${person.photo}" alt="${person.name}" class="profile-image" onerror="this.src='data:image/svg+xml,${encodeURIComponent(`<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="180" height="180" fill="#E6F0FF"/><circle cx="90" cy="70" r="35" fill="#004D7A"/><path d="M50 140C50 117.909 67.909 100 90 100C112.091 100 130 117.909 130 140" stroke="#004D7A" stroke-width="12" stroke-linecap="round"/></svg>`)}'">
-            </div>
-            <h3>${person.name}</h3>
-            <p class="specialization">${person.specialization}</p>
-            <div class="expertise-tags">
-                ${expertiseTags}
-            </div>
-            <a href="#waitlist" class="cta-button">${buttonText}</a>
+        <img src="${person.photo}" alt="${person.name}" onerror="this.src='data:image/svg+xml,${encodeURIComponent(`<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="180" height="180" fill="#E6F0FF"/><circle cx="90" cy="70" r="35" fill="#004D7A"/><path d="M50 140C50 117.909 67.909 100 90 100C112.091 100 130 117.909 130 140" stroke="#004D7A" stroke-width="12" stroke-linecap="round"/></svg>`)}'">
+        <h3>${person.name}</h3>
+        <p>${person.specialization}</p>
+        <div class="tags">
+            ${expertiseTags}
         </div>
+        <a href="#waitlist" class="cta-btn">${buttonText}</a>
     `;
     
     return card;
+}
+
+function initializeCarousel(carouselContainer) {
+    const carousel = carouselContainer.querySelector('.carousel');
+    const leftBtn = carouselContainer.querySelector('.left-btn');
+    const rightBtn = carouselContainer.querySelector('.right-btn');
+    let currentIndex = 0;
+
+    const updateCarousel = () => {
+        const cardWidth = carousel.querySelector('.carousel-card').offsetWidth;
+        const gap = 32; // 2rem gap
+        const translateX = currentIndex * (cardWidth + gap);
+        carousel.style.transform = `translateX(-${translateX}px)`;
+    };
+
+    leftBtn.addEventListener('click', () => {
+        currentIndex = Math.max(currentIndex - 1, 0);
+        updateCarousel();
+    });
+
+    rightBtn.addEventListener('click', () => {
+        const maxIndex = carousel.children.length - (isMobile() ? 1 : 3);
+        currentIndex = Math.min(currentIndex + 1, maxIndex);
+        updateCarousel();
+    });
+
+    window.addEventListener('resize', updateCarousel);
+
+    // Auto-scroll
+    const autoScrollInterval = setInterval(() => {
+        const maxIndex = carousel.children.length - (isMobile() ? 1 : 3);
+        currentIndex = currentIndex < maxIndex ? currentIndex + 1 : 0;
+        updateCarousel();
+    }, 5000);
+
+    // Stop auto-scroll on hover
+    carouselContainer.addEventListener('mouseenter', () => {
+        clearInterval(autoScrollInterval);
+    });
+
+    // Initialize first position
+    setTimeout(updateCarousel, 100);
 }
 
 // Main card creation function
@@ -42,23 +74,15 @@ function createCards(data, containerId, buttonText) {
     const container = document.querySelector(`#${containerId}`);
     if (!container) return;
 
-    // Setup grid structure
-    let gridContainer = container.querySelector('.cards-grid');
-    if (!gridContainer) {
-        gridContainer = createGridStructure();
-        container.appendChild(gridContainer);
-    }
+    const carouselContainer = container.querySelector('.carousel-container');
+    const carousel = carouselContainer.querySelector('.carousel');
 
     // Clear and create cards
-    gridContainer.innerHTML = '';
-    data.forEach(person => gridContainer.appendChild(createCardElement(person, buttonText)));
+    carousel.innerHTML = '';
+    data.forEach(person => carousel.appendChild(createCarouselCard(person, buttonText)));
 
-    // Animate cards
-    setTimeout(() => {
-        Array.from(gridContainer.children).forEach((card, index) => {
-            setTimeout(() => card.classList.add('animate-in'), index * 200);
-        });
-    }, 100);
+    // Initialize carousel
+    initializeCarousel(carouselContainer);
 }
 
 // Export functions
