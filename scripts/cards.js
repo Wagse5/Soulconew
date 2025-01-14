@@ -1,29 +1,14 @@
 // Constants
-const CARD_WIDTH = 360;
-const CARD_GAP = 24;
-const AUTO_SCROLL_INTERVAL = 1000; // 1 second
 const MOBILE_BREAKPOINT = 768;
-const MOBILE_CARD_WIDTH = 300;
-const MOBILE_CARD_GAP = 16;
 
 // Utility functions
 function isMobile() {
     return window.innerWidth <= MOBILE_BREAKPOINT;
 }
 
-function createCarouselStructure() {
+function createGridStructure() {
     const structure = document.createElement('div');
-    structure.className = 'carousel-container';
-    
-    const wrapper = document.createElement('div');
-    wrapper.className = 'carousel-wrapper';
-    
-    const carousel = document.createElement('div');
-    carousel.className = 'carousel';
-    
-    wrapper.appendChild(carousel);
-    structure.appendChild(wrapper);
-    
+    structure.className = 'cards-grid';
     return structure;
 }
 
@@ -52,133 +37,25 @@ function createCardElement(person, buttonText) {
     return card;
 }
 
-function initializeCarousel(containerSelector) {
-    const container = document.querySelector(containerSelector);
-    if (!container) return;
-
-    const carousel = container.querySelector('.carousel');
-    if (!carousel) return;
-
-    const cardWidth = isMobile() ? MOBILE_CARD_WIDTH : CARD_WIDTH;
-    const cardGap = isMobile() ? MOBILE_CARD_GAP : CARD_GAP;
-    let autoScrollInterval;
-    let isScrolling = false;
-    let scrollTimeout;
-
-    function setupCarousel() {
-        carousel.style.overflow = 'auto';
-        carousel.style.scrollSnapType = 'x mandatory';
-        carousel.style.scrollBehavior = 'smooth';
-        carousel.style.display = 'flex';
-        carousel.style.gap = `${cardGap}px`;
-        carousel.style.padding = isMobile() ? '0.5rem' : '1rem';
-    }
-
-    function autoScroll() {
-        if (isScrolling) return;
-
-        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-        const nextScrollPosition = carousel.scrollLeft + cardWidth + cardGap;
-
-        if (nextScrollPosition >= maxScroll) {
-            // When reaching the last card, smoothly scroll to the beginning
-            carousel.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-            carousel.scrollTo({ left: nextScrollPosition, behavior: 'smooth' });
-        }
-    }
-
-    function handleScrollEnd() {
-        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-        if (carousel.scrollLeft >= maxScroll) {
-            // When manually scrolled to the end, smoothly return to the beginning
-            setTimeout(() => {
-                carousel.scrollTo({ left: 0, behavior: 'smooth' });
-            }, 500);
-        }
-    }
-
-    function startAutoScroll() {
-        stopAutoScroll();
-        autoScrollInterval = setInterval(autoScroll, AUTO_SCROLL_INTERVAL);
-    }
-
-    function stopAutoScroll() {
-        if (autoScrollInterval) {
-            clearInterval(autoScrollInterval);
-            autoScrollInterval = null;
-        }
-    }
-
-    // Event Listeners
-    carousel.addEventListener('scroll', () => {
-        isScrolling = true;
-        stopAutoScroll();
-
-        if (scrollTimeout) {
-            clearTimeout(scrollTimeout);
-        }
-
-        scrollTimeout = setTimeout(() => {
-            isScrolling = false;
-            handleScrollEnd();
-            startAutoScroll();
-        }, 150);
-    });
-
-    carousel.addEventListener('touchstart', stopAutoScroll);
-    carousel.addEventListener('touchend', () => {
-        handleScrollEnd();
-        setTimeout(startAutoScroll, 1000);
-    });
-
-    carousel.addEventListener('mouseenter', stopAutoScroll);
-    carousel.addEventListener('mouseleave', () => {
-        handleScrollEnd();
-        startAutoScroll();
-    });
-
-    // Handle window resize
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            setupCarousel();
-            stopAutoScroll();
-            startAutoScroll();
-        }, 100);
-    });
-
-    // Initialize
-    setupCarousel();
-    startAutoScroll();
-}
-
 // Main card creation function
 function createCards(data, containerId, buttonText) {
     const container = document.querySelector(`#${containerId}`);
     if (!container) return;
 
-    // Setup carousel structure
-    let carouselContainer = container.querySelector('.carousel-container');
-    if (!carouselContainer) {
-        carouselContainer = createCarouselStructure();
-        container.appendChild(carouselContainer);
+    // Setup grid structure
+    let gridContainer = container.querySelector('.cards-grid');
+    if (!gridContainer) {
+        gridContainer = createGridStructure();
+        container.appendChild(gridContainer);
     }
 
-    const carousel = carouselContainer.querySelector('.carousel');
-    if (!carousel) return;
-
     // Clear and create cards
-    carousel.innerHTML = '';
-    data.forEach(person => carousel.appendChild(createCardElement(person, buttonText)));
-
-    // Initialize carousel
-    initializeCarousel(`#${containerId} .carousel-container`);
+    gridContainer.innerHTML = '';
+    data.forEach(person => gridContainer.appendChild(createCardElement(person, buttonText)));
 
     // Animate cards
     setTimeout(() => {
-        Array.from(carousel.children).forEach((card, index) => {
+        Array.from(gridContainer.children).forEach((card, index) => {
             setTimeout(() => card.classList.add('animate-in'), index * 200);
         });
     }, 100);
