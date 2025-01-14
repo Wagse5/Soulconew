@@ -338,6 +338,7 @@ header::before {
     flex-direction: column;
     gap: 1rem;
     height: 100%;
+    min-height: 600px;
 }
 
 /* Profile Image */
@@ -387,14 +388,18 @@ header::before {
 }
 
 /* Expertise Tags */
-.expertise-tags {
+.expertise-tags, .tags {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     margin-top: auto;
+    min-height: 120px;
+    justify-content: flex-end;
+    padding: 1rem 0;
 }
 
-.expertise-tag {
+/* Individual Tags */
+.expertise-tag, .tags span {
     font-size: 0.875rem;
     color: var(--primary-color);
     background: rgba(0, 77, 122, 0.1);
@@ -403,6 +408,10 @@ header::before {
     text-align: center;
     transition: all 0.3s ease;
     width: 100%;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .expertise-tag:hover {
