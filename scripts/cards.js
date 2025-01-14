@@ -84,38 +84,35 @@ function initializeCarousel(containerSelector) {
     }
     
     function getMaxScroll(carousel) {
-        const carouselWidth = carousel.offsetWidth;
-        const cardWidth = carousel.children[0].offsetWidth;
-        const gap = 24; // Gap between cards
-        const totalCards = carousel.children.length;
         const isMobile = window.innerWidth <= 768;
+        const cardWidth = isMobile ? carousel.offsetWidth : carousel.children[0].offsetWidth;
+        const totalCards = carousel.children.length;
         
         if (isMobile) {
             // On mobile, show exactly one card at a time
-            return (totalCards - 1) * (cardWidth + gap);
+            return (totalCards - 1) * cardWidth;
         } else {
             // On desktop, calculate based on visible width
-            const visibleCards = Math.floor(carouselWidth / (cardWidth + gap));
+            const gap = 24;
+            const visibleCards = Math.floor(carousel.offsetWidth / (cardWidth + gap));
             return Math.max(0, (totalCards - visibleCards) * (cardWidth + gap));
         }
     }
     
     function moveNext(carousel) {
-        const maxScroll = getMaxScroll(carousel);
-        const cardWidth = carousel.children[0].offsetWidth;
-        const gap = 24;
         const isMobile = window.innerWidth <= 768;
+        const cardWidth = isMobile ? carousel.offsetWidth : carousel.children[0].offsetWidth + 24;
+        const maxScroll = getMaxScroll(carousel);
         
-        let newScrollLeft = carousel.scrollLeft + cardWidth + gap;
+        let newScrollLeft = carousel.scrollLeft + cardWidth;
         
-        if (isMobile) {
-            // On mobile, if we're at the last card, stay there
-            if (newScrollLeft > maxScroll) {
+        // If we're at or past the last card
+        if (newScrollLeft >= maxScroll) {
+            if (isMobile) {
+                // On mobile, stay at the last card
                 newScrollLeft = maxScroll;
-            }
-        } else {
-            // On desktop, loop back to start
-            if (newScrollLeft > maxScroll) {
+            } else {
+                // On desktop, loop back to start
                 newScrollLeft = 0;
             }
         }
@@ -127,22 +124,19 @@ function initializeCarousel(containerSelector) {
     }
     
     function movePrev(carousel) {
-        const cardWidth = carousel.children[0].offsetWidth;
-        const gap = 24;
-        const maxScroll = getMaxScroll(carousel);
         const isMobile = window.innerWidth <= 768;
+        const cardWidth = isMobile ? carousel.offsetWidth : carousel.children[0].offsetWidth + 24;
         
-        let newScrollLeft = carousel.scrollLeft - (cardWidth + gap);
+        let newScrollLeft = carousel.scrollLeft - cardWidth;
         
-        if (isMobile) {
-            // On mobile, don't go before the first card
-            if (newScrollLeft < 0) {
+        // If we're at or before the first card
+        if (newScrollLeft <= 0) {
+            if (isMobile) {
+                // On mobile, stay at the first card
                 newScrollLeft = 0;
-            }
-        } else {
-            // On desktop, loop to end
-            if (newScrollLeft < 0) {
-                newScrollLeft = maxScroll;
+            } else {
+                // On desktop, loop to end
+                newScrollLeft = getMaxScroll(carousel);
             }
         }
         
@@ -193,8 +187,8 @@ function initializeCarousel(containerSelector) {
         touchEndX = e.changedTouches[0].screenX;
         const difference = touchStartX - touchEndX;
         
-        // Determine direction and move one card, regardless of swipe distance
-        if (Math.abs(difference) > 20) { // Small threshold just to prevent accidental swipes
+        // Move one card at a time based on swipe direction
+        if (Math.abs(difference) > 20) {
             if (difference > 0) {
                 moveNext(carousel);
             } else {
@@ -205,9 +199,15 @@ function initializeCarousel(containerSelector) {
         setTimeout(startAutoScroll, scrollSpeed);
     }, { passive: true });
 
-    // Remove touchmove handler as we don't need it anymore
+    // Prevent vertical scrolling when swiping horizontally on the carousel
     carousel.addEventListener('touchmove', (e) => {
-        e.preventDefault(); // Prevent default scrolling
+        const touch = e.touches[0];
+        const difference = touchStartX - touch.screenX;
+        
+        // If horizontal swipe is greater than vertical, prevent default
+        if (Math.abs(difference) > Math.abs(touchStartY - touch.screenY)) {
+            e.preventDefault();
+        }
     }, { passive: false });
     
     // Stop auto scroll on hover or touch

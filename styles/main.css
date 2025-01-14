@@ -370,17 +370,52 @@ header::before {
 /* Mobile Responsive Adjustments */
 @media (max-width: 768px) {
     .carousel-container {
-        padding: 0 1.5rem;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .carousel-wrapper {
+        width: 100%;
+        overflow: hidden;
+        padding: 1rem 0;
     }
 
     .carousel {
-        gap: 20px;
+        display: flex;
+        gap: 0;
+        width: 100%;
+        scroll-snap-type: x mandatory;
+    }
+
+    .therapist-card {
+        flex: 0 0 100%;
+        width: 100%;
+        max-width: 100%;
+        min-height: 580px;
+        padding: 1.5rem;
+        margin: 0;
+        scroll-snap-align: center;
     }
 
     .carousel-button {
         width: 36px;
         height: 36px;
-        background: rgba(0, 77, 122, 0.9);
+        background: var(--primary-color);
+        z-index: 100;
+    }
+
+    .carousel-button.prev {
+        left: 10px;
+    }
+
+    .carousel-button.next {
+        right: 10px;
+    }
+
+    .therapist-image-container {
+        width: 160px;
+        height: 160px;
     }
 }
 
