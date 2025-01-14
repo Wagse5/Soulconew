@@ -95,15 +95,15 @@
                 </div>
                 <button class="carousel-button next" aria-label="Next">
                     <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" fill="currentColor"/>
+                        <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z" fill="currentColor"/>
                     </svg>
                 </button>
             </div>
         </div>
     </section>
 
-    <!-- Peer Moderators Section -->
-    <section id="moderators" class="moderator-section">
+    <!-- Peer Moderator Section -->
+    <section id="moderators" class="therapist-section">
         <div class="container">
             <h2 class="section-title">Our Peer Moderators</h2>
             <div class="carousel-container">
@@ -113,11 +113,11 @@
                     </svg>
                 </button>
                 <div class="carousel-wrapper">
-                    <div class="moderator-grid carousel"></div>
+                    <div class="therapist-grid carousel"></div>
                 </div>
                 <button class="carousel-button next" aria-label="Next">
                     <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" fill="currentColor"/>
+                        <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z" fill="currentColor"/>
                     </svg>
                 </button>
             </div>
@@ -287,228 +287,109 @@
         // Fallback initialization if main.js fails to load
         window.addEventListener('DOMContentLoaded', () => {
             // Check if cards have already been created
-                const therapistGrid = document.querySelector('.therapist-grid');
-                const moderatorGrid = document.querySelector('.moderator-grid');
+            const therapistGrid = document.querySelector('.therapist-grid');
+            const moderatorGrid = document.querySelector('#moderators .therapist-grid');
                 
             if ((!therapistGrid || !therapistGrid.children.length) && (!moderatorGrid || !moderatorGrid.children.length)) {
                 console.warn('Main script not loaded, using fallback initialization');
                 
-                // Therapist data
-                const therapists = [
-                    {
-                        name: "G Sharath Chandra",
-                        photo: "https://i.ibb.co/59vKF3G/aryan-2.jpg",
-                        specialization: "Mental Health & Cultural Integration",
-                        expertise: ["Cultural Integration", "Men's Mental Health", "Career Stress Management"]
-                    },
-                    {
-                        name: "Apurva Upadhyay",
-                        photo: "https://i.ibb.co/2qnQ1DJ/apurva.jpg",
-                        specialization: "Mental Health & Family Support",
-                        expertise: ["Depression & Anxiety", "Family Counseling", "Support Group Facilitation"]
-                    },
-                    {
-                        name: "Catherine Mary Joy",
-                        photo: "https://i.ibb.co/4N7mxX6/CMJ.jpg",
-                        specialization: "Family Dynamics & Relationships",
-                        expertise: ["Family Counseling", "Relationship Therapy", "Cross-Cultural Adaptation"]
-                    },
-                    {
-                        name: "Malavika R",
-                        photo: "https://i.ibb.co/KV5R5Hb/MR.jpg",
-                        specialization: "Anxiety & Women's Wellness",
-                        expertise: ["Women's Mental Health", "Anxiety Management", "Work-Life Balance"]
-                    },
-                    {
-                        name: "Shashank Shukla",
-                        photo: "https://i.ibb.co/CsQyqTp/shashank.jpg",
-                        specialization: "Emotion Focused Therapy",
-                        expertise: ["Romantic Relationships", "Connection", "Heartbreak"]
-                    },
-                    {
-                        name: "Dr. Sarah Matthews",
-                        photo: "",
-                        specialization: "Youth & Teen Counseling",
-                        expertise: ["Teen Psychology", "Academic Stress", "Identity Development"]
-                    }
-                ];
+                // Shared placeholder SVG
+                const placeholderSVG = `data:image/svg+xml,${encodeURIComponent(`
+                    <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="180" height="180" fill="#E6F0FF"/>
+                        <circle cx="90" cy="70" r="35" fill="#004D7A"/>
+                        <path d="M50 140C50 117.909 67.909 100 90 100C112.091 100 130 117.909 130 140" stroke="#004D7A" stroke-width="12" stroke-linecap="round"/>
+                    </svg>
+                `)}`;
 
-                // Peer Moderator data
-                const moderators = [
-                    {
-                        name: "Chaitanya Kanoria",
-                        photo: "https://i.ibb.co/gDwDXXM/chaitanya.jpg",
-                        specialization: "Peer Specialist & Compassionate Communication",
-                        expertise: ["Communication Skills", "Philosophy & Spirituality", "Human Values"],
-                        isVerified: true,
-                        badgeText: "Expert Moderator",
-                        badgeType: "expert",
-                        group: "verified"
-                    },
-                    {
-                        name: "Abhuday Singh",
-                        photo: "https://i.ibb.co/LNCb19V/abhuday.jpg",
-                        specialization: "Men's Mental Health & Wellness",
-                        expertise: ["Men's Mental Health", "Personal Growth", "Stress Management"],
-                        isVerified: true,
-                        badgeText: "Senior Moderator",
-                        badgeType: "senior",
-                        group: "verified"
-                    },
-                    {
-                        name: "Priya Sharma",
-                        photo: "",
-                        specialization: "Cultural Transition Support",
-                        expertise: ["NRI Experience", "Cultural Adaptation", "Peer Support"],
-                        isVerified: true,
-                        badgeText: "Lead Moderator",
-                        badgeType: "lead",
-                        group: "verified"
-                    },
-                    {
-                        name: "Rahul Kapoor",
-                        photo: "",
-                        specialization: "Career & Life Balance",
-                        expertise: ["Work-Life Balance", "Professional Growth", "Stress Management"],
-                        isVerified: true,
-                        badgeText: "Senior Moderator",
-                        badgeType: "senior",
-                        group: "verified"
-                    },
-                    {
-                        name: "Michael Chen",
-                        photo: "",
-                        specialization: "International Student Support",
-                        expertise: ["Academic Life", "Cultural Exchange", "Student Wellness"],
-                        isVerified: true,
-                        badgeText: "Verified Moderator",
-                        badgeType: "verified",
-                        group: "verified"
-                    }
-                ];
-
-                const therapistGrid = document.querySelector('.therapist-grid');
-                const moderatorGrid = document.querySelector('.moderator-grid');
-                
-                if (therapistGrid || moderatorGrid) {
-                    const placeholderSVG = `data:image/svg+xml,${encodeURIComponent(`
-                        <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="180" height="180" fill="#E6F0FF"/>
-                            <circle cx="90" cy="70" r="35" fill="#004D7A"/>
-                            <path d="M50 140C50 117.909 67.909 100 90 100C112.091 100 130 117.909 130 140" stroke="#004D7A" stroke-width="12" stroke-linecap="round"/>
-                        </svg>
-                    `)}`;
-
-                    // Verification tick SVG
-                    const verifiedTickSVG = `
-                        <svg viewBox="0 0 24 24" width="14" height="14">
-                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/>
-                        </svg>
-                    `;
-
-                    // Create therapist cards
-                    if (therapistGrid) {
-                        therapists.forEach((therapist, index) => {
-                            const card = document.createElement('div');
-                            card.className = 'therapist-card glass-card animate-in';
-                            
-                            const expertiseTags = therapist.expertise
-                                .map(exp => `<span class="expertise-tag">${exp}</span>`)
-                                .join('');
-                            
-                            card.innerHTML = `
-                                <div class="therapist-content">
-                                    <div class="therapist-image-container">
-                                        <img src="${therapist.photo}" alt="${therapist.name}" class="therapist-image" onerror="this.src='${placeholderSVG}'">
-                                        <div class="image-overlay"></div>
-                                    </div>
-                                    <h3>${therapist.name}</h3>
-                                    <p class="specialization">${therapist.specialization}</p>
-                                    <div class="expertise-tags">
-                                        ${expertiseTags}
-                                    </div>
-                                    <a href="#waitlist" class="cta-button">Book a Session</a>
-                                </div>
-                            `;
-                            
-                            therapistGrid.appendChild(card);
-                        });
-                    }
-
-                    // Create moderator cards with groups
-                    if (moderatorGrid) {
-                        // Clear existing content
-                        moderatorGrid.innerHTML = '';
-
-                        // Group moderators
-                        const verifiedModerators = moderators.filter(m => m.group === 'verified');
-                        const trainingModerators = moderators.filter(m => m.group === 'training');
-
-                        // Create verified moderators section
-                        if (verifiedModerators.length > 0) {
-                            const verifiedHeader = document.createElement('div');
-                            verifiedHeader.className = 'moderator-group-header';
-                            verifiedHeader.innerHTML = '<h3>Verified Moderators</h3>';
-                            moderatorGrid.appendChild(verifiedHeader);
-
-                            verifiedModerators.forEach((moderator, index) => {
-                                createModeratorCard(moderator, index);
-                            });
+                // Data
+                const data = {
+                    therapists: [
+                        {
+                            name: "G Sharath Chandra",
+                            photo: "https://i.ibb.co/59vKF3G/aryan-2.jpg",
+                            specialization: "Mental Health & Cultural Integration",
+                            expertise: ["Cultural Integration", "Men's Mental Health", "Career Stress Management"]
+                        },
+                        {
+                            name: "Apurva Upadhyay",
+                            photo: "https://i.ibb.co/2qnQ1DJ/apurva.jpg",
+                            specialization: "Mental Health & Family Support",
+                            expertise: ["Depression & Anxiety", "Family Counseling", "Support Group Facilitation"]
+                        },
+                        {
+                            name: "Catherine Mary Joy",
+                            photo: "https://i.ibb.co/4N7mxX6/CMJ.jpg",
+                            specialization: "Family Dynamics & Relationships",
+                            expertise: ["Family Counseling", "Relationship Therapy", "Cross-Cultural Adaptation"]
+                        },
+                        {
+                            name: "Malavika R",
+                            photo: "https://i.ibb.co/KV5R5Hb/MR.jpg",
+                            specialization: "Anxiety & Women's Wellness",
+                            expertise: ["Women's Mental Health", "Anxiety Management", "Work-Life Balance"]
+                        },
+                        {
+                            name: "Shashank Shukla",
+                            photo: "https://i.ibb.co/CsQyqTp/shashank.jpg",
+                            specialization: "Emotion Focused Therapy",
+                            expertise: ["Romantic Relationships", "Connection", "Heartbreak"]
                         }
-
-                        // Create training moderators section
-                        if (trainingModerators.length > 0) {
-                            const trainingHeader = document.createElement('div');
-                            trainingHeader.className = 'moderator-group-header';
-                            trainingHeader.innerHTML = '<h3>Training Moderators</h3>';
-                            moderatorGrid.appendChild(trainingHeader);
-
-                            trainingModerators.forEach((moderator, index) => {
-                                createModeratorCard(moderator, index);
-                            });
+                    ],
+                    moderators: [
+                        {
+                            name: "Chaitanya Kanoria",
+                            photo: "https://i.ibb.co/gDwDXXM/chaitanya.jpg",
+                            specialization: "Peer Specialist & Compassionate Communication",
+                            expertise: ["Communication Skills", "Philosophy & Spirituality", "Human Values"]
+                        },
+                        {
+                            name: "Abhuday Singh",
+                            photo: "https://i.ibb.co/LNCb19V/abhuday.jpg",
+                            specialization: "Men's Mental Health & Wellness",
+                            expertise: ["Men's Mental Health", "Personal Growth", "Stress Management"]
                         }
+                    ]
+                };
 
-                        function createModeratorCard(moderator, index) {
-                            const card = document.createElement('div');
-                            card.className = 'moderator-card glass-card animate-in';
-                            
-                            const expertiseTags = moderator.expertise
-                                .map(exp => `<span class="expertise-tag">${exp}</span>`)
-                                .join('');
-                            
-                            const badges = moderator.isVerified ? `
-                                <div class="moderator-badge">
-                                    <div class="verified-icon" title="Verified Moderator">
-                                        ${verifiedTickSVG}
-                                    </div>
-                                    ${moderator.badgeText ? `<span class="badge-text ${moderator.badgeType}-badge">${moderator.badgeText}</span>` : ''}
+                // Unified card creation function
+                function createCards(data, containerId) {
+                    const grid = document.querySelector(`#${containerId} .therapist-grid`);
+                    if (!grid) return;
+
+                    data.forEach((person, index) => {
+                        const card = document.createElement('div');
+                        card.className = 'therapist-card glass-card animate-in';
+                        
+                        const expertiseTags = person.expertise
+                            .map(exp => `<span class="expertise-tag">${exp}</span>`)
+                            .join('');
+                        
+                        card.innerHTML = `
+                            <div class="therapist-content">
+                                <div class="therapist-image-container">
+                                    <img src="${person.photo}" alt="${person.name}" class="therapist-image" onerror="this.src='${placeholderSVG}'">
+                                    <div class="image-overlay"></div>
                                 </div>
-                            ` : moderator.badgeText ? `
-                                <div class="moderator-badge">
-                                    <span class="badge-text ${moderator.badgeType}-badge">${moderator.badgeText}</span>
+                                <h3>${person.name}</h3>
+                                <p class="specialization">${person.specialization}</p>
+                                <div class="expertise-tags">
+                                    ${expertiseTags}
                                 </div>
-                            ` : '';
-                            
-                            card.innerHTML = `
-                                <div class="moderator-content">
-                                    ${badges}
-                                    <div class="moderator-image-container">
-                                        <img src="${moderator.photo}" alt="${moderator.name}" class="moderator-image" onerror="this.src='${placeholderSVG}'">
-                                        <div class="image-overlay"></div>
-                                    </div>
-                                    <h3>${moderator.name}</h3>
-                                    <p class="specialization">${moderator.specialization}</p>
-                                    <div class="expertise-tags">
-                                        ${expertiseTags}
-                                    </div>
-                                    <a href="#waitlist" class="cta-button">Connect with Peer</a>
-                                </div>
-                            `;
-                            
-                            moderatorGrid.appendChild(card);
-                        }
-                    }
+                                <a href="#waitlist" class="cta-button">Book a Session</a>
+                            </div>
+                        `;
+                        
+                        grid.appendChild(card);
+                    });
+
+                    // Initialize carousel
+                    initializeCarousel(`#${containerId} .carousel-container`);
                 }
+
+                // Create cards for both sections
+                createCards(data.therapists, 'therapists');
+                createCards(data.moderators, 'moderators');
             }
         });
     </script>

@@ -33,12 +33,6 @@ export const therapists = [
         photo: "https://i.ibb.co/CsQyqTp/shashank.jpg",
         specialization: "Emotion Focused Therapy",
         expertise: ["Romantic Relationships", "Connection", "Heartbreak"]
-    },
-    {
-        name: "Dr. Sarah Matthews",
-        photo: "",
-        specialization: "Youth & Teen Counseling",
-        expertise: ["Teen Psychology", "Academic Stress", "Identity Development"]
     }
 ];
 
@@ -48,21 +42,13 @@ export const moderators = [
         name: "Chaitanya Kanoria",
         photo: "https://i.ibb.co/gDwDXXM/chaitanya.jpg",
         specialization: "Peer Specialist & Compassionate Communication",
-        expertise: ["Communication Skills", "Philosophy & Spirituality", "Human Values"],
-        isVerified: true,
-        badgeText: "Expert Moderator",
-        badgeType: "expert",
-        group: "verified"
+        expertise: ["Communication Skills", "Philosophy & Spirituality", "Human Values"]
     },
     {
         name: "Abhuday Singh",
         photo: "https://i.ibb.co/LNCb19V/abhuday.jpg",
         specialization: "Men's Mental Health & Wellness",
-        expertise: ["Men's Mental Health", "Personal Growth", "Stress Management"],
-        isVerified: true,
-        badgeText: "Senior Moderator",
-        badgeType: "senior",
-        group: "verified"
+        expertise: ["Men's Mental Health", "Personal Growth", "Stress Management"]
     }
 ];
 
@@ -90,7 +76,6 @@ function initializeApp() {
         const waitlistForm = document.querySelector('#waitlist iframe');
         if (waitlistForm) {
             waitlistForm.addEventListener('load', () => {
-                // Track when the form is loaded
                 trackEvent('Waitlist Form Loaded');
             });
         }
@@ -105,30 +90,20 @@ function initializeApp() {
             });
         });
 
-        // Track therapist card interactions
-        document.querySelector('.therapist-grid')?.addEventListener('click', (e) => {
-            const card = e.target.closest('.therapist-card');
-            if (card) {
-                const name = card.querySelector('h3')?.textContent;
-                const specialization = card.querySelector('.specialization')?.textContent;
-                trackEvent('Therapist Card Click', {
-                    therapist_name: name,
-                    specialization: specialization
-                });
-            }
-        });
-
-        // Track moderator card interactions
-        document.querySelector('.moderator-grid')?.addEventListener('click', (e) => {
-            const card = e.target.closest('.moderator-card');
-            if (card) {
-                const name = card.querySelector('h3')?.textContent;
-                const specialization = card.querySelector('.specialization')?.textContent;
-                trackEvent('Moderator Card Click', {
-                    moderator_name: name,
-                    specialization: specialization
-                });
-            }
+        // Track card interactions for both therapists and moderators
+        ['therapists', 'moderators'].forEach(section => {
+            document.querySelector(`#${section} .therapist-grid`)?.addEventListener('click', (e) => {
+                const card = e.target.closest('.therapist-card');
+                if (card) {
+                    const name = card.querySelector('h3')?.textContent;
+                    const specialization = card.querySelector('.specialization')?.textContent;
+                    trackEvent(`${section.slice(0, -1).charAt(0).toUpperCase() + section.slice(1, -1)} Card Click`, {
+                        name,
+                        specialization,
+                        section
+                    });
+                }
+            });
         });
     });
 }

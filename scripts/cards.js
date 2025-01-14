@@ -1,30 +1,31 @@
-// Card creation functions
+// Unified card creation function
+function createCards(data, containerId, buttonText) {
+    const grid = document.querySelector(`#${containerId} .therapist-grid`);
+    if (!grid) return;
 
-// Function to create therapist cards
-export function createTherapistCards(therapists) {
-    const therapistGrid = document.querySelector('.therapist-grid');
-    if (!therapistGrid) return;
+    // Clear existing content
+    grid.innerHTML = '';
 
-    therapists.forEach((therapist, index) => {
+    data.forEach((person, index) => {
         const card = document.createElement('div');
         card.className = 'therapist-card';
         
-        const expertiseTags = therapist.expertise
+        const expertiseTags = person.expertise
             .map(exp => `<span class="expertise-tag">${exp}</span>`)
             .join('');
         
         card.innerHTML = `
             <div class="therapist-content">
                 <div class="therapist-image-container">
-                    <img src="${therapist.photo}" alt="${therapist.name}" class="therapist-image" onerror="this.src='data:image/svg+xml,${encodeURIComponent(`<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="180" height="180" fill="#E6F0FF"/><circle cx="90" cy="70" r="35" fill="#004D7A"/><path d="M50 140C50 117.909 67.909 100 90 100C112.091 100 130 117.909 130 140" stroke="#004D7A" stroke-width="12" stroke-linecap="round"/></svg>`)}'">
+                    <img src="${person.photo}" alt="${person.name}" class="therapist-image" onerror="this.src='data:image/svg+xml,${encodeURIComponent(`<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="180" height="180" fill="#E6F0FF"/><circle cx="90" cy="70" r="35" fill="#004D7A"/><path d="M50 140C50 117.909 67.909 100 90 100C112.091 100 130 117.909 130 140" stroke="#004D7A" stroke-width="12" stroke-linecap="round"/></svg>`)}'">
                     <div class="image-overlay"></div>
                 </div>
-                <h3>${therapist.name}</h3>
-                <p class="specialization">${therapist.specialization}</p>
+                <h3>${person.name}</h3>
+                <p class="specialization">${person.specialization}</p>
                 <div class="expertise-tags">
                     ${expertiseTags}
                 </div>
-                <a href="#waitlist" class="cta-button">Book a Session</a>
+                <a href="#waitlist" class="cta-button">${buttonText}</a>
             </div>
         `;
 
@@ -33,78 +34,39 @@ export function createTherapistCards(therapists) {
             card.classList.add('animate-in');
         }, index * 200);
         
-        therapistGrid.appendChild(card);
+        grid.appendChild(card);
     });
 
     // Initialize carousel after cards are created
-    initializeCarousel('#therapists .carousel-container');
+    initializeCarousel(`#${containerId} .carousel-container`);
 }
 
-// Function to create moderator cards
+// Export functions that use the unified createCards function
+export function createTherapistCards(therapists) {
+    createCards(therapists, 'therapists', 'Book a Session');
+}
+
 export function createModeratorCards(moderators) {
-    const moderatorGrid = document.querySelector('.moderator-grid');
-    if (!moderatorGrid) return;
-
-    moderators.forEach((moderator, index) => {
-        const card = document.createElement('div');
-        card.className = 'moderator-card';
-        
-        const expertiseTags = moderator.expertise
-            .map(exp => `<span class="expertise-tag">${exp}</span>`)
-            .join('');
-        
-        const verifiedTickSVG = `
-            <svg viewBox="0 0 24 24" width="14" height="14">
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/>
-            </svg>
-        `;
-        
-        const badges = `
-            <div class="moderator-badge">
-                <div class="verified-icon" title="Verified Moderator">
-                    ${verifiedTickSVG}
-                </div>
-                <span class="badge-text ${moderator.badgeType}-badge">${moderator.badgeText}</span>
-            </div>
-        `;
-        
-        card.innerHTML = `
-            <div class="moderator-content">
-                ${badges}
-                <div class="moderator-image-container">
-                    <img src="${moderator.photo}" alt="${moderator.name}" class="moderator-image" onerror="this.src='data:image/svg+xml,${encodeURIComponent(`<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="180" height="180" fill="#E6F0FF"/><circle cx="90" cy="70" r="35" fill="#004D7A"/><path d="M50 140C50 117.909 67.909 100 90 100C112.091 100 130 117.909 130 140" stroke="#004D7A" stroke-width="12" stroke-linecap="round"/></svg>`)}'">
-                    <div class="image-overlay"></div>
-                </div>
-                <h3>${moderator.name}</h3>
-                <p class="specialization">${moderator.specialization}</p>
-                <div class="expertise-tags">
-                    ${expertiseTags}
-                </div>
-                <a href="#waitlist" class="cta-button">Connect with Peer</a>
-            </div>
-        `;
-
-        // Add animation class after a delay
-        setTimeout(() => {
-            card.classList.add('animate-in');
-        }, index * 200);
-        
-        moderatorGrid.appendChild(card);
-    });
-
-    // Initialize carousel after cards are created
-    initializeCarousel('#moderators .carousel-container');
+    createCards(moderators, 'moderators', 'Book a Session');
 }
 
 // Carousel functionality
 function initializeCarousel(containerSelector) {
     const container = document.querySelector(containerSelector);
-    if (!container) return;
+    if (!container) {
+        console.warn(`Container not found for selector: ${containerSelector}`);
+        return;
+    }
 
     const carousel = container.querySelector('.carousel');
     const prevBtn = container.querySelector('.prev');
     const nextBtn = container.querySelector('.next');
     
+    if (!carousel || !prevBtn || !nextBtn) {
+        console.warn(`Required carousel elements not found in container: ${containerSelector}`);
+        return;
+    }
+
     let position = 0;
     let autoScrollInterval;
     const scrollSpeed = 3000; // Auto scroll every 3 seconds
@@ -122,80 +84,36 @@ function initializeCarousel(containerSelector) {
     }
     
     function getMaxScroll() {
-        const carouselWidth = carousel.scrollWidth;
         const containerWidth = container.querySelector('.carousel-wrapper').offsetWidth;
-        const totalCards = Math.ceil(carouselWidth / (cardWidth + cardGap));
-        const visibleCards = Math.floor(containerWidth / (cardWidth + cardGap));
-        const maxScroll = -(Math.max(0, totalCards - visibleCards) * (cardWidth + cardGap));
-        return maxScroll;
+        const totalCards = carousel.children.length;
+        const visibleCards = Math.ceil(containerWidth / moveDistance);
+        const maxScroll = -(totalCards - visibleCards) * moveDistance;
+        
+        return Math.min(0, maxScroll);
     }
     
     function moveNext() {
         const maxScroll = getMaxScroll();
         position -= moveDistance;
         
-        // Reset to first card if we've scrolled too far
+        // If we've scrolled past the last card, reset to first
         if (position < maxScroll) {
-            // Add a smooth transition back to start
-            carousel.style.transition = 'none';
             position = 0;
-            carousel.style.transform = `translateX(${position}px)`;
-            // Force a reflow
-            carousel.offsetHeight;
-            // Restore the transition
-            carousel.style.transition = 'transform 0.5s ease-in-out';
         }
         
         updatePosition();
     }
     
     function movePrev() {
+        const maxScroll = getMaxScroll();
         position += moveDistance;
         
-        // Loop to last card if we're at the start and trying to go back
+        // If we're at the start and trying to go back, loop to last card
         if (position > 0) {
-            // Add a smooth transition to last card
-            carousel.style.transition = 'none';
-            position = getMaxScroll();
-            carousel.style.transform = `translateX(${position}px)`;
-            // Force a reflow
-            carousel.offsetHeight;
-            // Restore the transition
-            carousel.style.transition = 'transform 0.5s ease-in-out';
+            position = maxScroll;
         }
         
         updatePosition();
-    }
-    
-    // Auto scroll functionality
-    function startAutoScroll() {
-        stopAutoScroll(); // Clear any existing interval
-        autoScrollInterval = setInterval(() => {
-            const maxScroll = getMaxScroll();
-            // Only auto-scroll if there's content to scroll
-            if (maxScroll < 0) {
-                position -= moveDistance;
-                // If we've scrolled past the last card, reset to first
-                if (position < maxScroll) {
-                    // Add a smooth transition back to start
-                    carousel.style.transition = 'none';
-                    position = 0;
-                    carousel.style.transform = `translateX(${position}px)`;
-                    // Force a reflow
-                    carousel.offsetHeight;
-                    // Restore the transition
-                    carousel.style.transition = 'transform 0.5s ease-in-out';
-                }
-                updatePosition();
-            }
-        }, scrollSpeed);
-    }
-    
-    function stopAutoScroll() {
-        if (autoScrollInterval) {
-            clearInterval(autoScrollInterval);
-            autoScrollInterval = null;
-        }
     }
     
     // Event Listeners
@@ -211,9 +129,23 @@ function initializeCarousel(containerSelector) {
         setTimeout(startAutoScroll, scrollSpeed);
     });
     
-    // Stop auto scroll on hover or touch
-    container.addEventListener('mouseenter', stopAutoScroll);
-    container.addEventListener('mouseleave', startAutoScroll);
+    // Auto scroll functionality
+    function startAutoScroll() {
+        stopAutoScroll();
+        autoScrollInterval = setInterval(() => {
+            const maxScroll = getMaxScroll();
+            if (maxScroll < 0) {
+                moveNext();
+            }
+        }, scrollSpeed);
+    }
+    
+    function stopAutoScroll() {
+        if (autoScrollInterval) {
+            clearInterval(autoScrollInterval);
+            autoScrollInterval = null;
+        }
+    }
     
     // Touch events for mobile
     let touchStartX = 0;
@@ -263,12 +195,17 @@ function initializeCarousel(containerSelector) {
         } else {
             // Snap back to nearest card
             const cardPosition = Math.round(position / moveDistance) * moveDistance;
-            position = Math.max(getMaxScroll(), Math.min(0, cardPosition));
+            const maxScroll = getMaxScroll();
+            position = Math.max(maxScroll, Math.min(0, cardPosition));
             updatePosition();
         }
         
         setTimeout(startAutoScroll, scrollSpeed);
     }, { passive: true });
+    
+    // Stop auto scroll on hover or touch
+    container.addEventListener('mouseenter', stopAutoScroll);
+    container.addEventListener('mouseleave', startAutoScroll);
     
     // Handle window resize
     let resizeTimeout;
@@ -277,7 +214,6 @@ function initializeCarousel(containerSelector) {
         stopAutoScroll();
         
         resizeTimeout = setTimeout(() => {
-            // Adjust position to nearest valid card position
             const maxScroll = getMaxScroll();
             position = Math.max(maxScroll, Math.min(0, position));
             updatePosition(false);
