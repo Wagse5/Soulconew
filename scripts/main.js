@@ -41,7 +41,7 @@ export const moderators = [
     {
         name: "Chaitanya Kanoria",
         photo: "https://i.ibb.co/gDwDXXM/chaitanya.jpg",
-        specialization: "Peer Specialist",
+        specialization: "Peer Specialist & Compassionate Communication",
         expertise: ["Communication Skills", "Philosophy & Spirituality", "Human Values"]
     },
     {
@@ -51,10 +51,16 @@ export const moderators = [
         expertise: ["Men's Mental Health", "Personal Growth", "Stress Management"]
     },
     {
-        name: "Sandilya Ch",
-        photo: "https://i.ibb.co/fdXNHD6/pic.jpg",
+        name: "Sandilya C H",
+        photo: "https://i.ibb.co/VD8v53v/sand-new1.jpg",
         specialization: "Online de-addiction for youth",
         expertise: ["Digital Wellness", "Youth Counseling", "Addiction Recovery"]
+    },
+    {
+        name: "Avinash Reddy",
+        photo: "https://i.ibb.co/8NgrNR0/avi-new.jpg",
+        specialization: "Cultural Adjustment",
+        expertise: ["Cross-Cultural Integration", "Social Adaptation", "International Student Support"]
     }
 ];
 
