@@ -41,7 +41,7 @@ export const moderators = [
     {
         name: "Chaitanya Kanoria",
         photo: "https://i.ibb.co/gDwDXXM/chaitanya.jpg",
-        specialization: "Peer Specialist & Compassionate Communication",
+        specialization: "Peer Specialist",
         expertise: ["Communication Skills", "Philosophy & Spirituality", "Human Values"]
     },
     {
@@ -51,7 +51,7 @@ export const moderators = [
         expertise: ["Men's Mental Health", "Personal Growth", "Stress Management"]
     },
     {
-        name: "Sandilya C H",
+        name: "Sandilya Ch",
         photo: "https://i.ibb.co/VD8v53v/sand-new1.jpg",
         specialization: "Online de-addiction for youth",
         expertise: ["Digital Wellness", "Youth Counseling", "Addiction Recovery"]
