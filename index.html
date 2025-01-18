@@ -370,13 +370,13 @@
                         },
                         {
                             name: "Sandilya Ch",
-                            photo: "https://i.ibb.co/VD8v53v/sand-new1.jpg",
+                            photo: "https://i.postimg.cc/VD8v53v/sand-new1.jpg",
                             specialization: "Online de-addiction for youth",
                             expertise: ["Digital Wellness", "Youth Counseling", "Addiction Recovery"]
                         },
                         {
                             name: "Avinash Reddy",
-                            photo: "https://i.ibb.co/8NgrNR0/avi-new.jpg",
+                            photo: "https://i.postimg.cc/8NgrNR0/avi-new.jpg",
                             specialization: "Cultural Adjustment",
                             expertise: ["Cross-Cultural Integration", "Social Adaptation", "International Student Support"]
                         }
@@ -399,7 +399,7 @@
                         card.innerHTML = `
                             <div class="therapist-content">
                                 <div class="therapist-image-container">
-                                    <img src="${person.photo}" alt="${person.name}" class="therapist-image" onerror="this.src='${placeholderSVG}'">
+                                    <img src="${person.photo}" alt="${person.name}" class="therapist-image" crossorigin="anonymous" onerror="this.src='${placeholderSVG}'">
                                     <div class="image-overlay"></div>
                                 </div>
                                 <h3>${person.name}</h3>

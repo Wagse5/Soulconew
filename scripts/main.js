@@ -52,13 +52,13 @@ export const moderators = [
     },
     {
         name: "Sandilya Ch",
-        photo: "https://i.ibb.co/VD8v53v/sand-new1.jpg",
+        photo: "https://i.postimg.cc/VD8v53v/sand-new1.jpg",
         specialization: "Online de-addiction for youth",
         expertise: ["Digital Wellness", "Youth Counseling", "Addiction Recovery"]
     },
     {
         name: "Avinash Reddy",
-        photo: "https://i.ibb.co/8NgrNR0/avi-new.jpg",
+        photo: "https://i.postimg.cc/8NgrNR0/avi-new.jpg",
         specialization: "Cultural Adjustment",
         expertise: ["Cross-Cultural Integration", "Social Adaptation", "International Student Support"]
     }
