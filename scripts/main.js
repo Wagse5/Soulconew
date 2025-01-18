@@ -49,6 +49,12 @@ export const moderators = [
         photo: "https://i.ibb.co/LNCb19V/abhuday.jpg",
         specialization: "Men's Mental Health & Wellness",
         expertise: ["Men's Mental Health", "Personal Growth", "Stress Management"]
+    },
+    {
+        name: "Sandilya C H",
+        photo: "https://ibb.co/pj1KdhV",
+        specialization: "Online de-addiction for youth",
+        expertise: ["Digital Wellness", "Youth Counseling", "Addiction Recovery"]
     }
 ];
 
