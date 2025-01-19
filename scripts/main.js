@@ -72,7 +72,7 @@ export const moderators = [
 
 // Initialize the application
 function initializeApp() {
-    document.addEventListener('DOMContentLoaded', () => {
+    try {
         // Initialize cards
         createTherapistCards(therapists);
         createModeratorCards(moderators);
@@ -123,8 +123,16 @@ function initializeApp() {
                 }
             });
         });
-    });
+
+        console.log('App initialized successfully');
+    } catch (error) {
+        console.error('Error initializing app:', error);
+    }
 }
 
-// Start the application
-initializeApp();
+// Start the application when DOM is loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+    initializeApp();
+}

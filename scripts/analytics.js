@@ -1,5 +1,5 @@
 // Analytics Configuration
-import mixpanel from 'mixpanel-browser';
+const mixpanel = window.mixpanel;
 
 // Initialize Mixpanel
 mixpanel.init('9039ae7df20c5c6d7fad91acb84ac442', {

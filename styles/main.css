@@ -479,7 +479,7 @@ header::before {
 }
 
 /* Card Base Styles */
-.card-base {
+    .card-base {
     background: var(--white);
     border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -862,7 +862,7 @@ header::before {
 }   
 
 /* Unified Button Styles */
-.cta-button {
+    .cta-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1242,11 +1242,11 @@ section:nth-child(even) {
     background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
     transform: rotate(45deg);
     transition: all 0.3s ease;
-    opacity: 0;
-}
+        opacity: 0;
+    }
 
 .pricing-section .cta-button:hover::after {
-    opacity: 1;
+        opacity: 1;
     transform: rotate(45deg) translate(10%, 10%);
 }
 
@@ -1277,13 +1277,13 @@ section:nth-child(even) {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-size: 2rem;
+        font-size: 2rem;
     font-weight: 600;
-}
+    }
 
 .custom-form {
     display: flex;
-    flex-direction: column;
+        flex-direction: column;
     gap: 1.5rem;
 }
 
