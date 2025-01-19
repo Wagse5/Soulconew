@@ -1,5 +1,11 @@
 [build]
-  command = "mkdir -p dist && cp -r * dist/"
+  command = """
+    mkdir -p dist && \
+    cp index.html dist/ && \
+    cp -r scripts dist/ && \
+    cp -r styles dist/ && \
+    cp -r assets dist/
+  """
   publish = "dist"
 
 [[headers]]

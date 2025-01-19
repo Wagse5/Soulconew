@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "dev": "vite",
-    "build": "cp -r * dist/ || true",
+    "build": "mkdir -p dist && cp index.html dist/ && cp -r scripts dist/ && cp -r styles dist/ && cp -r assets dist/",
     "preview": "vite preview",
     "start": "python -m http.server"
   },
