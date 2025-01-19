@@ -26,10 +26,10 @@
 <body>
     <!-- Navigation -->
     <nav class="nav-blur">
-        <div class="container nav-container">
+        <div class="nav-container">
             <div class="logo">
                 <a href="#home">
-                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor">
                         <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2"/>
                         <path d="M13 20C13 16.134 16.134 13 20 13C23.866 13 27 16.134 27 20C27 23.866 23.866 27 20 27C16.134 27 13 23.866 13 20Z" fill="currentColor"/>
                         <path d="M20 10C20 10 22 14 22 20C22 26 20 30 20 30" stroke="currentColor" stroke-width="2"/>
@@ -40,9 +40,7 @@
             </div>
             <button class="mobile-menu-btn" aria-label="Toggle Menu">
                 <svg class="menu-icon" viewBox="0 0 24 24" width="24" height="24">
-                    <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    <line x1="3" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>
             </button>
             <ul class="nav-links">
@@ -58,13 +56,23 @@
 
     <!-- Header Section -->
     <header id="home" class="glass-morphism">
+        <div class="brain-animation">
+            <div class="brain-container">
+                <svg class="brain-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M9.5 2C4.5 2 2 5.5 2 9.5C2 13.5 4.5 17 9.5 17M14.5 2C19.5 2 22 5.5 22 9.5C22 13.5 19.5 17 14.5 17M12 2C10.5 2 9.5 3.5 9.5 5C9.5 6.5 10.5 8 12 8C13.5 8 14.5 6.5 14.5 5C14.5 3.5 13.5 2 12 2ZM12 8C10.5 8 9.5 9.5 9.5 11C9.5 12.5 10.5 14 12 14C13.5 14 14.5 12.5 14.5 11C14.5 9.5 13.5 8 12 8ZM12 14C10.5 14 9.5 15.5 9.5 17C9.5 18.5 10.5 20 12 20C13.5 20 14.5 18.5 14.5 17C14.5 15.5 13.5 14 12 14Z" />
+                </svg>
+            </div>
+        </div>
         <div class="floating-shapes">
             <div></div>
             <div></div>
             <div></div>
         </div>
         <div class="header-content">
-            <h1>Reconnect with Your Roots,<br>Rekindle Your Well-Being</h1>
+            <h1>
+                <span>Reconnect with Your Roots,</span><br>
+                <span>Rekindle Your Well-Being</span>
+            </h1>
             <p>Experience affordable, accessible, and culturally adapted mental health support designed specifically for NRIs and Indians worldwide. Join our community of understanding and growth.</p>
             <div class="cta">
                 <a href="#waitlist" class="cta-button">Join Our Waitlist Today</a>
@@ -177,17 +185,26 @@
     </section>
 
     <!-- Waitlist Section -->
-    <section id="waitlist" class="waitlist-section glass-morphism">
-        <div class="container">
-            <h2 class="section-title">Join Our Waitlist</h2>
-            <div class="form-container">
-                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSez-zba5R4z5FGYiTRyFJb3Swpr0P5kbrFXNVoRsE0hH6_5XQ/viewform?embedded=true" 
-                        width="100%" 
-                        height="600" 
-                        frameborder="0" 
-                        marginheight="0" 
-                        marginwidth="0">Loading…</iframe>
-            </div>
+    <section id="waitlist" class="waitlist-section">
+        <div class="form-container glass-morphism">
+            <h2>Join Our Waitlist</h2>
+            <form id="waitlistForm" class="custom-form">
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number with country code *</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="+1234567890" required>
+                </div>
+                
+                <div id="formStatus" class="form-status" style="display: none;"></div>
+                
+                <button type="submit" id="submitForm" class="submit-button">
+                    Join Waitlist
+                </button>
+            </form>
         </div>
     </section>
 
@@ -430,5 +447,6 @@
             }
         });
     </script>
+    <script src="scripts/form.js"></script>
 </body>
 </html>
